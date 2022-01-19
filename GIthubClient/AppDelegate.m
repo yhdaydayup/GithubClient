@@ -6,35 +6,45 @@
 //
 
 #import "AppDelegate.h"
-
+#import "GCTabBarController.h"
+#import "GCLoginViewController.h"
 @interface AppDelegate ()
 
 @end
+
+//https://github.com/login/oauth/authorize?client_id=3ed2e4be30f051e64174&scope=repo&redirect_uri=http://localhost:5288
+//personal token for test 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
 
 @implementation AppDelegate
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];//设置和界面大小的窗口
+    self.window.backgroundColor=[UIColor whiteColor];
+    
+    GCTabBarController *TabBarVC = [[GCTabBarController alloc] init];
+    TabBarVC.view.frame = self.window.bounds;
+    
+    UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:TabBarVC];
+    self.window.rootViewController = nvc;
+    [self.window makeKeyAndVisible];
+    
+    
+    GCLoginViewController *loginPageVC = [[GCLoginViewController alloc] init];
+    [nvc pushViewController:loginPageVC animated:YES];
+//    if([[GCGithubApi shareGCGithubApi] isLogin])
+//    {
+//    }
+//    else
+//    {
+//        GCLoginViewController *loginPageVC = [[GCLoginViewController alloc] init];
+//        [nvc pushViewController:loginPageVC animated:YES];
+//    }
+    
     return YES;
 }
 
 
 #pragma mark - UISceneSession lifecycle
-
-
-- (UISceneConfiguration *)application:(UIApplication *)application configurationForConnectingSceneSession:(UISceneSession *)connectingSceneSession options:(UISceneConnectionOptions *)options {
-    // Called when a new scene session is being created.
-    // Use this method to select a configuration to create the new scene with.
-    return [[UISceneConfiguration alloc] initWithName:@"Default Configuration" sessionRole:connectingSceneSession.role];
-}
-
-
-- (void)application:(UIApplication *)application didDiscardSceneSessions:(NSSet<UISceneSession *> *)sceneSessions {
-    // Called when the user discards a scene session.
-    // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
-    // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
-}
-
-
 @end
