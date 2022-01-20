@@ -31,16 +31,16 @@
     [self.window makeKeyAndVisible];
     
     
-    GCLoginViewController *loginPageVC = [[GCLoginViewController alloc] init];
-    [nvc pushViewController:loginPageVC animated:YES];
-//    if([[GCGithubApi shareGCGithubApi] isLogin])
-//    {
-//    }
-//    else
-//    {
-//        GCLoginViewController *loginPageVC = [[GCLoginViewController alloc] init];
-//        [nvc pushViewController:loginPageVC animated:YES];
-//    }
+//    GCLoginViewController *loginPageVC = [[GCLoginViewController alloc] init];
+//    [nvc pushViewController:loginPageVC animated:YES];
+    if([[GCGithubApi shareGCGithubApi] isLogin])
+    {
+    }
+    else
+    {
+        GCLoginViewController *loginPageVC = [[GCLoginViewController alloc] init];
+        [nvc pushViewController:loginPageVC animated:YES];
+    }
     
     return YES;
 }

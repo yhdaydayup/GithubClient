@@ -7,9 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AFNetworking.h"
 NS_ASSUME_NONNULL_BEGIN
 
+NSString *getAuthenticatedUserRepositoriesUrl(void);
+
+NSString *getStaredUrl(NSString *owner, NSString *repo);
 
 typedef void (^successBlock)(id);
 typedef void(^failureBlock)(void);
@@ -17,8 +19,12 @@ typedef void(^failureBlock)(void);
 - (BOOL) loginWithAccount:(NSString *)account WithSecret:(NSString *)secret;
 - (BOOL) isLogin;
 + (instancetype) shareGCGithubApi;
-- (void)getAuthenticatedUserRepositoriesWithSuccessBlock:(successBlock)successBlock WithFailureBlock:(failureBlock)failureBlock;
-+(AFHTTPSessionManager *)shareHttpSessionManagerInstance;
+
+- (void)getWithUrl:(NSString*)url WithSuccessBlock:(successBlock)successBlock WithFailureBlock:(failureBlock)failureBlock;
+
+- (void)putWithUrl:(NSString*)url WithSuccessBlock:(successBlock)successBlock WithFailureBlock:(failureBlock)failureBlock;
+    
+- (void)deleteWithUrl:(NSString*)url WithSuccessBlock:(successBlock)successBlock WithFailureBlock:(failureBlock)failureBlock;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -1,13 +1,18 @@
-//
-//  GCRepositoryListData.m
-//  GithubClient
-//
-//  Created by bytedance on 2022/1/20.
-//  Copyright © 2022 iosByYH. All rights reserved.
-//
-
 #import "GCRepositoryListData.h"
+@implementation Owner
+@end
 
-@implementation GCRepositoryListData
 
+@implementation License
+@end
+
+
+@implementation Permissions
+@end
+
+
+@implementation GCRepositoryListDatum
++ (NSDictionary *)modelCustomPropertyMapper {
+    return @{@"description_":@"description"};
+}
 @end

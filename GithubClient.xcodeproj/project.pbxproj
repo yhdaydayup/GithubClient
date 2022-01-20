@@ -22,6 +22,8 @@
 		2BC6A4D427915BD5002901D0 /* GCRepositoryListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC6A4D327915BD5002901D0 /* GCRepositoryListViewController.m */; };
 		2BF26341279565B1000CC41C /* GCRepositoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF26340279565B1000CC41C /* GCRepositoryViewController.m */; };
 		2BF263472796A1D4000CC41C /* GCTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF263462796A1D4000CC41C /* GCTools.m */; };
+		2BF2634B2799133A000CC41C /* GCRepositoryListData.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF2634A2799133A000CC41C /* GCRepositoryListData.m */; };
+		2BF2634F279933B3000CC41C /* NSObject+GCDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF2634E279933B3000CC41C /* NSObject+GCDataModel.m */; };
 		A5DC2F8E7F9DDFA6D64C11E3 /* libPods-GithubClient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EACFE79ED7AFAE65D9AAE33E /* libPods-GithubClient.a */; };
 /* End PBXBuildFile section */
 
@@ -56,6 +58,10 @@
 		2BF26340279565B1000CC41C /* GCRepositoryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GCRepositoryViewController.m; sourceTree = "<group>"; };
 		2BF263452796A1D4000CC41C /* GCTools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GCTools.h; sourceTree = "<group>"; };
 		2BF263462796A1D4000CC41C /* GCTools.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GCTools.m; sourceTree = "<group>"; };
+		2BF263492799133A000CC41C /* GCRepositoryListData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GCRepositoryListData.h; sourceTree = "<group>"; };
+		2BF2634A2799133A000CC41C /* GCRepositoryListData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GCRepositoryListData.m; sourceTree = "<group>"; };
+		2BF2634D279933B2000CC41C /* NSObject+GCDataModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+GCDataModel.h"; sourceTree = "<group>"; };
+		2BF2634E279933B3000CC41C /* NSObject+GCDataModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+GCDataModel.m"; sourceTree = "<group>"; };
 		589267B079A95AC7923F0956 /* Pods-GithubClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GithubClient.debug.xcconfig"; path = "Target Support Files/Pods-GithubClient/Pods-GithubClient.debug.xcconfig"; sourceTree = "<group>"; };
 		E89581F6215D8DBB87D592F7 /* Pods-GithubClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GithubClient.release.xcconfig"; path = "Target Support Files/Pods-GithubClient/Pods-GithubClient.release.xcconfig"; sourceTree = "<group>"; };
 		EACFE79ED7AFAE65D9AAE33E /* libPods-GithubClient.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GithubClient.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -104,6 +110,7 @@
 		2BC6A441278D6DEE002901D0 /* GIthubClient */ = {
 			isa = PBXGroup;
 			children = (
+				2BF26348279912CC000CC41C /* GCDataModel */,
 				2BF2633E27956212000CC41C /* GCRepsitoryView */,
 				2BC6A4C9279046A4002901D0 /* GCRepositoryListView */,
 				2BC6A467278D84A9002901D0 /* TabBar */,
@@ -207,6 +214,17 @@
 			path = ToolKit;
 			sourceTree = "<group>";
 		};
+		2BF26348279912CC000CC41C /* GCDataModel */ = {
+			isa = PBXGroup;
+			children = (
+				2BF263492799133A000CC41C /* GCRepositoryListData.h */,
+				2BF2634A2799133A000CC41C /* GCRepositoryListData.m */,
+				2BF2634D279933B2000CC41C /* NSObject+GCDataModel.h */,
+				2BF2634E279933B3000CC41C /* NSObject+GCDataModel.m */,
+			);
+			path = GCDataModel;
+			sourceTree = "<group>";
+		};
 		F7B69CA626AC8D18BC38DA0F /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -253,7 +271,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 2BC6A43A278D6DEE002901D0 /* Build configuration list for PBXProject "GithubClient" */;
+			buildConfigurationList = 2BC6A43A278D6DEE002901D0 /* Build configuration list for PBXProject "GIthubClient" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -318,8 +336,10 @@
 				2BC6A455278D6DF1002901D0 /* main.m in Sources */,
 				2BC6A4D427915BD5002901D0 /* GCRepositoryListViewController.m in Sources */,
 				2BF26341279565B1000CC41C /* GCRepositoryViewController.m in Sources */,
+				2BF2634B2799133A000CC41C /* GCRepositoryListData.m in Sources */,
 				2BC6A49D278DA90B002901D0 /* GCWorkSpaceViewController.m in Sources */,
 				2BC6A4C4278ED4C1002901D0 /* GCWorkSpaceTableViewCell.m in Sources */,
+				2BF2634F279933B3000CC41C /* NSObject+GCDataModel.m in Sources */,
 				2BC6A466278D8472002901D0 /* GCLoginViewController.m in Sources */,
 				2BC6A463278D82F9002901D0 /* GCGithubApi.m in Sources */,
 				2BF263472796A1D4000CC41C /* GCTools.m in Sources */,
@@ -516,7 +536,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		2BC6A43A278D6DEE002901D0 /* Build configuration list for PBXProject "GithubClient" */ = {
+		2BC6A43A278D6DEE002901D0 /* Build configuration list for PBXProject "GIthubClient" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2BC6A456278D6DF1002901D0 /* Debug */,

@@ -10,10 +10,12 @@
 #import "GCRepositoryTableViewCell.h"
 #import <Masonry/Masonry.h>
 #import "GCGithubApi.h"
+#import "GCRepositoryListData.h"
+#import "NSObject+GCDataModel.h"
 
 @interface GCRepositoryListViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
-@property (strong, nonatomic) NSMutableArray<NSMutableDictionary*> *data;
+@property (strong, nonatomic) GCRepositoryListData* data;
 @property (strong, nonatomic) UIImageView *loadingImageView;
 @end
 
@@ -21,7 +23,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _data = [[NSMutableArray<NSMutableDictionary*> alloc] init];
+    _data = [[GCRepositoryListData alloc] init];
     _tableView = [[UITableView alloc] init];
     self.tableView.backgroundColor = self.view.backgroundColor;
     _tableView.separatorColor = [UIColor clearColor];
@@ -55,9 +57,8 @@
     
     GCGithubApi *githubApi = [GCGithubApi shareGCGithubApi];
     __weak typeof(self) weakSelf = self;
-    [githubApi getAuthenticatedUserRepositoriesWithSuccessBlock:^(id dictArray){
-        weakSelf.data = dictArray;
-//        [dictArray addObjectsFromArray:[dictArray copy]];
+    [githubApi getWithUrl:getAuthenticatedUserRepositoriesUrl() WithSuccessBlock:^(id responseObject){
+        weakSelf.data = [GCRepositoryListDatum jsonsToModelsWithJsons:responseObject];
         [weakSelf.loadingImageView setHidden:YES];
         [weakSelf.tableView setHidden:NO];
         [weakSelf.tableView reloadData];

@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "GCRepositoryListData.h"
 NS_ASSUME_NONNULL_BEGIN
 
+
 @interface GCRepositoryTableViewCell : UITableViewCell
-@property(strong, nonatomic) NSMutableDictionary *data;
-- (void) setData:(NSMutableDictionary*)aData;
+@property(strong, nonatomic) GCRepositoryListDatum *data;
+- (void) setData:(GCRepositoryListDatum*)aData;
 @end
 
 NS_ASSUME_NONNULL_END

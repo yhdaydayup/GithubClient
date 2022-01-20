@@ -7,47 +7,58 @@
 //
 
 #import "GCGithubApi.h"
+#import <AFNetworking/AFNetworking.h>
+#import <YYModel/YYModel.h>
+#import "GCRepositoryListData.h"
+#import "NSObject+GCDataModel.h"
+
+NSString *getAuthenticatedUserRepositoriesUrl(void){
+    return @"https://api.github.com/user/repos";
+}
+
+NSString *getStaredUrl(NSString *owner, NSString *repo){
+    return [[NSString alloc] initWithFormat:@"https://api.github.com/user/starred/%@/%@",owner,repo];
+}
+
 
 @interface GCGithubApi ()
 @property (strong, nonatomic) NSString* access_token;
+@property (strong, nonatomic) NSDictionary *params;
+@property (strong, nonatomic) NSDictionary *headers;
+@property (strong, nonatomic) AFHTTPSessionManager *manager;
 @end
 
 @implementation GCGithubApi
-+(AFHTTPSessionManager *)shareHttpSessionManagerInstance
-{
-    static AFHTTPSessionManager * manager = nil;
-    static dispatch_once_t onceToken;
-    //dispatch_once 表示这个事件只执行一次，而且是线程安全的
-    //这里说明初始化只做一次，返回单例
-    dispatch_once(&onceToken, ^{
-        manager = [AFHTTPSessionManager manager];
-        manager.requestSerializer = [AFHTTPRequestSerializer serializer];
-        manager.responseSerializer = [AFJSONResponseSerializer serializer];
-        manager.requestSerializer.timeoutInterval = 30;
-        manager.completionQueue=dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0);
-    });
-    return manager;
-}
-
 - (BOOL) isLogin
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *token = [defaults stringForKey:@"access_token"];
-    NSLog(@"%@", token);
-    return token != nil;
+    _access_token = [defaults stringForKey:@"access_token"];
+    _headers = @{@"Authorization": [[NSString alloc] initWithFormat:@"token %@", _access_token]};
+    NSLog(@"%@", _access_token);
+    return _access_token != nil;
 }
 - (BOOL) loginWithAccount:(NSString *)account WithSecret:(NSString *)secret
 {
     //_access_token 会有有效期
-    static dispatch_once_t onceToken;   // typedef long dispatch_once_t;
-    dispatch_once(&onceToken, ^{
-        _access_token = @"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";
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        NSLog(@"%@", _access_token);
-        [defaults setObject:_access_token forKey:@"access_token"];
-        [defaults synchronize];
-    });
+    _access_token = @"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";
+    _headers = @{@"Authorization": [[NSString alloc] initWithFormat:@"token %@", _access_token]};
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSLog(@"%@", _access_token);
+    [defaults setObject:_access_token forKey:@"access_token"];
+    [defaults synchronize];
     return _access_token != nil;
+}
+- (instancetype) init{
+    if(self = [super init]){
+        _params = @{@"Accept" : @"application/vnd.github.v3+json"};
+        //headers的获取时间还需要调整
+        _manager = [AFHTTPSessionManager manager];
+        _manager.requestSerializer = [AFJSONRequestSerializer serializer];
+        _manager.responseSerializer = [AFJSONResponseSerializer serializer];
+        _manager.requestSerializer.timeoutInterval = 30;
+        _manager.completionQueue=dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0);
+    }
+    return self;
 }
 + (instancetype) shareGCGithubApi
 {
@@ -59,36 +70,46 @@
     return sharedInstance;
 }
 
-- (void)getAuthenticatedUserRepositoriesWithSuccessBlock:(successBlock)successBlock WithFailureBlock:(failureBlock)failureBlock
-{
-    AFHTTPSessionManager *manager = [[self class]  shareHttpSessionManagerInstance];
-    NSMutableArray<NSMutableDictionary*> *dictArray = [[NSMutableArray<NSMutableDictionary*> alloc] init];
-    NSDictionary *params = @{@"Accept" : @"application/vnd.github.v3+json"};
-    NSDictionary *headers = @{@"Authorization": [[NSString alloc] initWithFormat:@"token %@", _access_token]};
-    [manager GET:@"https://api.github.com/user/repos" parameters:params headers:headers progress:nil success:^(NSURLSessionDataTask* _Nonnull task, NSDictionary* _Nonnull responseObject){
-        NSLog(@"%@", responseObject);
-        for(NSDictionary* obj in responseObject){
-            NSLog(@"%@", obj);
-            NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-            // @"owner" @"name" @"starazers_count" @"forks_count" @"description" @"language"
-            //owner.login owner.avatar_url
-//            [dict setValue:@"owner" forKey:@"owner"];
-            [dict setValue:[obj valueForKey:@"owner"] forKey:@"owner"];
-            [dict setValue:[obj valueForKey:@"name"] forKey:@"name"];
-            [dict setValue:[obj valueForKey:@"stargazers_count"] forKey:@"stargazers_count"];
-            [dict setValue:[obj valueForKey:@"forks_count"] forKey:@"forks_count"];
-            [dict setValue:[obj valueForKey:@"description"] forKey:@"description"];
-            [dict setValue:[obj valueForKey:@"language"] forKey:@"language"];
-            [dictArray addObject:dict];
-            NSLog(@"%@", dictArray);
-            NSLog(@"get data success");
-        }
+// status 204 not content 说明stared ， 404 not found 说明没有star
+
+- (void)getWithUrl:(NSString*)url WithSuccessBlock:(successBlock)successBlock WithFailureBlock:(failureBlock)failureBlock{
+    [_manager GET:url parameters:_params headers:_headers progress:nil success:^(NSURLSessionDataTask* _Nonnull task, id responseObject){
         dispatch_async(dispatch_get_main_queue(), ^{
-            successBlock(dictArray);
+            successBlock(responseObject);
         });
     } failure:^(NSURLSessionDataTask *task, NSError *error){
-        NSLog(@"get data false, %@", error);
-        failureBlock();
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSLog(@"%@", error);
+            failureBlock();
+        });
+    }];
+}
+
+- (void)putWithUrl:(NSString*)url WithSuccessBlock:(successBlock)successBlock WithFailureBlock:(failureBlock)failureBlock{
+    [_manager PUT:url parameters:_params headers:_headers success:^(NSURLSessionDataTask* _Nonnull task, id responseObject){
+            NSLog(@"%@", responseObject);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                successBlock(responseObject);
+            });
+        } failure:^(NSURLSessionDataTask *task, NSError *error){
+            NSLog(@"%@", error);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                failureBlock();
+            });
+        }
+    ];
+}
+- (void)deleteWithUrl:(NSString*)url WithSuccessBlock:(successBlock)successBlock WithFailureBlock:(failureBlock)failureBlock{
+    [_manager DELETE:url parameters:_params headers:_headers success:^(NSURLSessionDataTask* _Nonnull task, id responseObject){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSLog(@"%@", responseObject);
+            successBlock(responseObject);
+        });
+    } failure:^(NSURLSessionDataTask *task, NSError *error){
+        NSLog(@"%@", error);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            failureBlock();
+        });
     }];
 }
 @end

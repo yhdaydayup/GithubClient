@@ -4,4 +4,5 @@ target 'GithubClient' do
 	pod 'AFNetworking', '~>4.0'
 	pod 'Masonry'
 	pod 'SDWebImage'
+	pod 'YYModel'
 end

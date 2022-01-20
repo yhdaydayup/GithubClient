@@ -11,7 +11,7 @@
 #import <SDWebImage/SDWebImage.h>
 #import "GCTools.h"
 #import "configure.h"
-
+#import "GCGithubApi.h"
 
 
 @interface GCRepositoryTableViewCell ()
@@ -164,40 +164,73 @@
     return;
 }
 - (void) starAction{
-    if(_isStar) {
-        [_starImageView setImage:[UIImage imageNamed:@"star-fill-yellow.png"]];
+    __weak typeof(self) weakSelf = self;
+    self.starImageView.userInteractionEnabled = NO;
+    if(!_isStar) {
+        [weakSelf.starImageView setImage:[UIImage imageNamed:@"star-fill-yellow.png"]];
+        weakSelf.starCount.text = [[NSString alloc] initWithFormat:@"%d",[weakSelf.starCount.text intValue] + 1];
+        [[GCGithubApi shareGCGithubApi] putWithUrl:getStaredUrl(weakSelf.userNameLabel.text, weakSelf.repositoryNameLabel.text) WithSuccessBlock:^(id response){
+            weakSelf.isStar = YES;
+            weakSelf.starImageView.userInteractionEnabled = YES;
+        } WithFailureBlock:^{
+            [weakSelf.starImageView setImage:[UIImage imageNamed:@"star.png"]];
+            weakSelf.starCount.text = [[NSString alloc] initWithFormat:@"%d",[weakSelf.starCount.text intValue] - 1];
+            weakSelf.starImageView.userInteractionEnabled = YES;
+        }];
     }
     else {
-        [_starImageView setImage:[UIImage imageNamed:@"star.png"]];
+        [weakSelf.starImageView setImage:[UIImage imageNamed:@"star.png"]];
+        weakSelf.starCount.text = [[NSString alloc] initWithFormat:@"%d",[weakSelf.starCount.text intValue] - 1];
+        [[GCGithubApi shareGCGithubApi] deleteWithUrl:getStaredUrl(weakSelf.userNameLabel.text, weakSelf.repositoryNameLabel.text) WithSuccessBlock:^(id response){
+            weakSelf.isStar = NO;
+            weakSelf.starImageView.userInteractionEnabled = YES;
+        } WithFailureBlock:^{
+            [weakSelf.starImageView setImage:[UIImage imageNamed:@"star-fill-yellow.png"]];
+            weakSelf.starCount.text = [[NSString alloc] initWithFormat:@"%d",[weakSelf.starCount.text intValue] + 1];
+            weakSelf.starImageView.userInteractionEnabled = YES;
+        }];
     }
-    _isStar = !_isStar;
     return;
 }
-- (void) setData:(NSMutableDictionary*)aData{
+- (void) checkStared{
+    __weak typeof(self) weakSelf = self;
+    [[GCGithubApi shareGCGithubApi] getWithUrl:getStaredUrl(weakSelf.userNameLabel.text ,weakSelf.repositoryNameLabel.text) WithSuccessBlock:^(id response){
+        [weakSelf.starImageView setImage:[UIImage imageNamed:@"star-fill-yellow.png"]];
+        weakSelf.isStar = YES;
+    } WithFailureBlock:^{
+        [weakSelf.starImageView setImage:[UIImage imageNamed:@"star.png"]];
+        weakSelf.isStar = NO;
+    }];
+    return;
+}
+- (void) setData:(GCRepositoryListDatum*)aData{
 //    self.data = [aData mutableCopy];
     // @"owner" @"name" @"starazers-count" @"forks-count" @"description" @"language"
     //owner.login owner.avatar_url
+    _data = aData;
     [self.cellView layoutIfNeeded];
-    _userNameLabel.text = [aData valueForKeyPath:@"owner.login"];
+    _userNameLabel.text = aData.owner.login;
     [_userNameLabel sizeToFit];
     
-    _repositoryNameLabel.text = [aData valueForKeyPath:@"name"];
+    _repositoryNameLabel.text = aData.name;
     [_repositoryNameLabel sizeToFit];
     
-    [_headsImageView sd_setImageWithURL:[NSURL URLWithString:[aData valueForKeyPath:@"owner.avatar_url"]] placeholderImage:[UIImage imageNamed:@"icons/close.png"]];
+    [_headsImageView sd_setImageWithURL:[NSURL URLWithString:aData.owner.avatar_url] placeholderImage:[UIImage imageNamed:@"icons/close.png"]];
     [_headsImageView.layer setCornerRadius:CGRectGetHeight([_headsImageView bounds]) / 2];
     [_headsImageView.layer setMasksToBounds:YES];
     
-    _languageLabel.text = [@"" stringByAppendingFormat:@"%@",[aData valueForKey:@"language"]];
+    _languageLabel.text = aData.languages_url;
     [_languageLabel sizeToFit];
     
-    _briefDescription.text = [aData valueForKey:@"description"];
+    _briefDescription.text = aData.description_;
 
-    _forkCount.text = [NSString stringWithFormat:@"%@", [aData valueForKey:@"forks_count"]];
+    _forkCount.text = aData.forks_count;
     [_forkCount sizeToFit];
 
-    _starCount.text = [NSString stringWithFormat:@"%@", [aData valueForKey:@"stargazers_count"]];
+    _starCount.text = aData.stargazers_count;
     [_forkCount sizeToFit];
+    
+    [self checkStared];
 }
 
 @end
