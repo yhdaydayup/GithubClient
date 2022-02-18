@@ -10,7 +10,22 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface GCFolderData : NSObject
+@interface GCTreeItem :NSObject
+@property (nonatomic , copy) NSString              * path;
+@property (nonatomic , copy) NSString              * mode;
+@property (nonatomic , copy) NSString              * type;
+@property (nonatomic , assign) NSInteger              size;
+@property (nonatomic , copy) NSString              * sha;
+@property (nonatomic , copy) NSString              * url;
+
+@end
+
+
+@interface GCFolderData :NSObject
+@property (nonatomic , copy) NSString              * sha;
+@property (nonatomic , copy) NSString              * url;
+@property (nonatomic , strong) NSArray <GCTreeItem*>  *tree;
+@property (nonatomic , assign) BOOL              truncated;
 
 @end
 

@@ -7,10 +7,12 @@
 //
 #import <UIKit/UIKit.h>
 
-#ifndef configure.h
+#ifndef configure_h
 #define configure_h
 
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
+
+#define CommonBackGroundColor UIColorFromRGB(0xFAFAFA)
 
 #pragma mark-- loginPage
 #define loginPage_TextField_Font_Size 100
@@ -53,4 +55,41 @@
 
 #define RepositoryList_fork_font [UIFont fontWithName:@"Helvetica" size:12]
 #define RepositoryList_fork_textColor [UIColor grayColor]
+
+#pragma mark - Repository
+#define repository_backgroundColor UIColorFromRGB(0xFAFAFA)
+
+#define repository_subView_backgroundColor [UIColor whiteColor]
+
+#define repository_topButton_backgroundColor UIColorFromRGB(0xFAFAFA)
+#define repository_topButton_textFont [UIFont fontWithName:@"Helvetica-bold" size:12]
+#define repository_topButton_textColor [UIColor blackColor]
+
+#define repository_fullName_backgroundColor [UIColor clearColor]
+#define repository_fullName_textFont [UIFont fontWithName:@"Helvetica-bold" size:14]
+#define repository_fullName_textColor [UIColor blackColor]
+
+#define repository_updateTime_backgroundColor [UIColor clearColor]
+#define repository_updateTime_textFont [UIFont fontWithName:@"Helvetica" size:11]
+#define repository_updateTime_textColor [UIColor grayColor]
+
+#define repository_description_backgroundColor [UIColor clearColor]
+#define repository_description_textFont [UIFont fontWithName:@"Helvetica" size:13]
+#define repository_description_textColor [UIColor grayColor]
+
+#define repository_bottomButton_backgroundColor [UIColor clearColor]
+#define repository_bottomButton_textFont [UIFont fontWithName:@"Helvetica-bold" size:14]
+#define repository_bottomButton_textColor [UIColor blackColor]
+
+#define repository_actionBar_backgroundColor [UIColor whiteColor]
+#define repository_actionBar_title_textColor [UIColor blackColor]
+#define repository_actionBar_title_textFont [UIFont fontWithName:@"Helvetica-bold" size:17]
+#define repository_actionBar_tail_textColor [UIColor grayColor]
+#define repository_actionBar_tail_textFont [UIFont fontWithName:@"Helvetica" size:14]
+
+#define folder_fileName_textColor [UIColor blackColor]
+#define folder_fileName_textFont [UIFont fontWithName:@"Helvetica-bold" size:15]
+
+#define search_result_filterLabel_textColor [UIColor grayColor]
+#define search_result_filterLabel_selected_textColor [UIColor blackColor]
 #endif /* configure_h */

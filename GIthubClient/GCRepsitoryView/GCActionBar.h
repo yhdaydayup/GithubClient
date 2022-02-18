@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface GCActionBar : UIView
 
+- (instancetype)initWithTitle:(NSString*)title WithTail:(NSString*)tail;
 @end
 
 NS_ASSUME_NONNULL_END

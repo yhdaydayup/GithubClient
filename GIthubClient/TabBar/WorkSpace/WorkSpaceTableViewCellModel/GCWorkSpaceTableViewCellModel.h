@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface GCWorkSpaceTableViewCellModel : NSObject
 - (instancetype) initWithClassName:(NSString*)cellClassName WithTitle:(NSString*)title WithImagePath:(NSString*)imagePath;
-@property (copy, nonatomic) NSString* cellClassName;
+@property (copy, nonatomic) NSString* cellActionClassName;
 @property (copy, nonatomic) NSString* title;
 @property (copy, nonatomic) NSString* imagePath;
 @end

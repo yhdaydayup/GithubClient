@@ -8,6 +8,9 @@
 
 #import "GCSearchRepositoryResultData.h"
 
-@implementation GCSearchRepositoryResultData
+@implementation GCSearchRepositoryResultDatum
+@end
 
+
+@implementation GCSearchRepositoryResultData
 @end

@@ -10,7 +10,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface GCLicense : NSObject
+@interface GCLicense :NSObject
+@property (nonatomic , copy) NSString              * key;
+@property (nonatomic , copy) NSString              * name;
+@property (nonatomic , copy) NSString              * spdx_id;
+@property (nonatomic , copy) NSString              * url;
+@property (nonatomic , copy) NSString              * node_id;
 
 @end
 

@@ -12,14 +12,14 @@
 @end
 
 @implementation GCWorkSpaceTableViewCellModel
-@synthesize cellClassName;
+@synthesize cellActionClassName;
 @synthesize title;
 @synthesize imagePath;
-- (instancetype) initWithClassName:(NSString*)cellClassName WithTitle:(NSString*)title WithImagePath:(NSString*)imagePath
+- (instancetype) initWithClassName:(NSString*)cellActionClassName WithTitle:(NSString*)title WithImagePath:(NSString*)imagePath
 {
     if(self = [super init])
     {
-        self.cellClassName = cellClassName;
+        self.cellActionClassName = cellActionClassName;
         self.title = title;
         self.imagePath = imagePath;
     }

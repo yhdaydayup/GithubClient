@@ -9,9 +9,12 @@
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
+@class GCRepositoryData;
 
 @interface GCRepositoryViewController : UIViewController
-
+@property (strong, nonatomic) GCRepositoryData *data;
+@property (copy, nonatomic) NSString* fullName;
+- (instancetype) initWithFullName:(NSString*)fullName;
 @end
 
 NS_ASSUME_NONNULL_END

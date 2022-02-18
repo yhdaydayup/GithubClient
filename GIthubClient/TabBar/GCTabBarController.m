@@ -10,6 +10,7 @@
 #import "GCWorkSpaceViewController.h"
 #import "configure.h"
 #import <Masonry.h>
+#import "GCSearchViewController.h"
 
 #define WorkImagePath  @"work.png"
 #define WorkFillingImagePath @"work-filling.png"
@@ -31,7 +32,7 @@
     // Do any additional setup after loading the view.
     _controllerArray = [[NSMutableArray<UIViewController*> alloc] init];
     [_controllerArray addObject:[self addTabBarViewController:[GCWorkSpaceViewController class] WithTitle:@"工作台" WithImagePath:WorkImagePath WithSelectedImagePath:WorkFillingImagePath]];
-    [_controllerArray addObject:[self addTabBarViewController:[GCWorkSpaceViewController class] WithTitle:@"工作台" WithImagePath:WorkImagePath WithSelectedImagePath:WorkFillingImagePath]];
+    [_controllerArray addObject:[self addTabBarViewController:[GCSearchViewController class] WithTitle:@"搜索" WithImagePath:@"search.png" WithSelectedImagePath:@"search-fill.png"]];
     self.viewControllers = _controllerArray;
 }
 - (UIViewController*) addTabBarViewController:(Class)className WithTitle:(NSString*)title WithImagePath:(NSString*)imagePath WithSelectedImagePath:(NSString*)selectedImagePath

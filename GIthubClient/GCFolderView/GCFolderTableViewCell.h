@@ -10,8 +10,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface GCFolderTableViewCell : UITableViewCell
+@class  GCTreeItem;
 
+@interface GCFolderTableViewCell : UITableViewCell
+- (void)setData:(GCTreeItem*) tree;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -19,4 +19,10 @@
     }
     return models;
 }
++ (NSDictionary *)modelCustomPropertyMapper {
+    return @{@"description_":@"description",
+             @"id_":@"id",
+             @"private_":@"private"
+    };
+}
 @end

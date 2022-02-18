@@ -194,7 +194,7 @@
 }
 - (void) checkStared{
     __weak typeof(self) weakSelf = self;
-    [[GCGithubApi shareGCGithubApi] getWithUrl:getStaredUrl(weakSelf.userNameLabel.text ,weakSelf.repositoryNameLabel.text) WithSuccessBlock:^(id response){
+    [[GCGithubApi shareGCGithubApi] getWithUrl:getStaredUrl(weakSelf.userNameLabel.text ,weakSelf.repositoryNameLabel.text) WithAcceptType:JSonContent WithSuccessBlock:^(id response){
         [weakSelf.starImageView setImage:[UIImage imageNamed:@"star-fill-yellow.png"]];
         weakSelf.isStar = YES;
     } WithFailureBlock:^{
@@ -219,8 +219,30 @@
     [_headsImageView.layer setCornerRadius:CGRectGetHeight([_headsImageView bounds]) / 2];
     [_headsImageView.layer setMasksToBounds:YES];
     
-    _languageLabel.text = aData.languages_url;
-    [_languageLabel sizeToFit];
+//    NSArray *array = [NSArray arrayWithObjects:@"1bc",@"4b6",@"123",@"789",@"3ef", nil];
+//    NSArray *sortedArray = [array sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+//         //这里的代码可以参照上面compare:默认的排序方法，也可以把自定义的方法写在这里，给对象排序
+//         NSComparisonResult result = [obj1 compare:obj2];
+//         return result;
+//    }];
+//    NSLog(@"排序后:%@",sortedArray);
+    __weak typeof(self) weakSelf = self;
+    _languageLabel.text = @"without code";
+    [[GCGithubApi shareGCGithubApi] getWithUrl:aData.languages_url WithAcceptType:JSonContent WithSuccessBlock:^(NSDictionary *responseObj){
+        NSString *most_language = @"without code";
+        NSNumber *count = [[NSNumber alloc] initWithInt:-2];
+        NSArray *arr = [responseObj allKeys];
+        for(NSString* key in arr) {
+            if([[responseObj valueForKey:key] compare:count] == kCFCompareGreaterThan) {
+                most_language = key;
+                count = [responseObj valueForKey:key];
+            }
+        }
+        weakSelf.languageLabel.text = most_language;
+        [weakSelf.languageLabel sizeToFit];
+        } WithFailureBlock:^{
+        [weakSelf.languageLabel sizeToFit];
+    }];
     
     _briefDescription.text = aData.description_;
 

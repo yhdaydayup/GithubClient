@@ -10,6 +10,7 @@
 #import "GCWorkSpaceTableViewCellModel.h"
 #import "GCWorkSpaceTableViewCell.h"
 #import "GCRepositoryListViewController.h"
+#import "GCStarredReposViewController.h"
 #import <Masonry/Masonry.h>
 #import "configure.h"
 
@@ -23,12 +24,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _data = [[NSMutableArray<GCWorkSpaceTableViewCellModel*> alloc] init];
-    [_data addObject:[[GCWorkSpaceTableViewCellModel alloc] initWithClassName:@"" WithTitle:@"问题" WithImagePath:@"issue.png"]];
-    [_data addObject:[[GCWorkSpaceTableViewCellModel alloc] initWithClassName:@"" WithTitle:@"合并请求" WithImagePath:@"request.png"]];
-    [_data addObject:[[GCWorkSpaceTableViewCellModel alloc] initWithClassName:@"" WithTitle:@"组织" WithImagePath:@"organization.png"]];
-    [_data addObject:[[GCWorkSpaceTableViewCellModel alloc] initWithClassName:@"" WithTitle:@"仓库" WithImagePath:@"repository.png"]];
-    [_data addObject:[[GCWorkSpaceTableViewCellModel alloc] initWithClassName:@"" WithTitle:@"标星" WithImagePath:@"star-fill.png"]];
-    [_data addObject:[[GCWorkSpaceTableViewCellModel alloc] initWithClassName:@"" WithTitle:@"动态" WithImagePath:@"dynamic.png"]];
+    [_data addObject:[[GCWorkSpaceTableViewCellModel alloc] initWithClassName:@"GCRepositoryListViewController" WithTitle:@"问题" WithImagePath:@"issue.png"]];
+    [_data addObject:[[GCWorkSpaceTableViewCellModel alloc] initWithClassName:@"GCRepositoryListViewController" WithTitle:@"合并请求" WithImagePath:@"request.png"]];
+    [_data addObject:[[GCWorkSpaceTableViewCellModel alloc] initWithClassName:@"GCRepositoryListViewController" WithTitle:@"组织" WithImagePath:@"organization.png"]];
+    [_data addObject:[[GCWorkSpaceTableViewCellModel alloc] initWithClassName:@"GCRepositoryListViewController" WithTitle:@"仓库" WithImagePath:@"repository.png"]];
+    [_data addObject:[[GCWorkSpaceTableViewCellModel alloc] initWithClassName:@"GCStarredReposViewController" WithTitle:@"标星" WithImagePath:@"star-fill.png"]];
+    [_data addObject:[[GCWorkSpaceTableViewCellModel alloc] initWithClassName:@"GCRepositoryListViewController" WithTitle:@"动态" WithImagePath:@"dynamic.png"]];
     
     _topView = [[UIView alloc] init];
     _topView.backgroundColor =TabBarPage_Element_Background_Color;
@@ -93,8 +94,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UIViewController *responseVC = [[GCRepositoryListViewController alloc] init];
-//    responseVC.view.bounds = self.view.bounds;
+    Class vcClass = NSClassFromString(_data[indexPath.row].cellActionClassName);
+    if(!vcClass) {
+        return;
+    }
+    UIViewController *responseVC = [[vcClass alloc] init];
     responseVC.view.backgroundColor = self.view.backgroundColor;
     [self.navigationController pushViewController:responseVC animated:YES];
     [_tableView deselectRowAtIndexPath:indexPath animated:NO];

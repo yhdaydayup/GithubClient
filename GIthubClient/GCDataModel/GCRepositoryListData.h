@@ -1,47 +1,7 @@
 #import <Foundation/Foundation.h>
-
-@interface Owner :NSObject
-@property (nonatomic , copy) NSString              * login;
-@property (nonatomic , assign) NSInteger              id_;
-@property (nonatomic , copy) NSString              * node_id;
-@property (nonatomic , copy) NSString              * avatar_url;
-@property (nonatomic , copy) NSString              * gravatar_id;
-@property (nonatomic , copy) NSString              * url;
-@property (nonatomic , copy) NSString              * html_url;
-@property (nonatomic , copy) NSString              * followers_url;
-@property (nonatomic , copy) NSString              * following_url;
-@property (nonatomic , copy) NSString              * gists_url;
-@property (nonatomic , copy) NSString              * starred_url;
-@property (nonatomic , copy) NSString              * subscriptions_url;
-@property (nonatomic , copy) NSString              * organizations_url;
-@property (nonatomic , copy) NSString              * repos_url;
-@property (nonatomic , copy) NSString              * events_url;
-@property (nonatomic , copy) NSString              * received_events_url;
-@property (nonatomic , copy) NSString              * type;
-@property (nonatomic , assign) BOOL              site_admin;
-
-@end
-
-
-@interface License :NSObject
-@property (nonatomic , copy) NSString              * key;
-@property (nonatomic , copy) NSString              * name;
-@property (nonatomic , copy) NSString              * spdx_id;
-@property (nonatomic , copy) NSString              * url;
-@property (nonatomic , copy) NSString              * node_id;
-
-@end
-
-
-@interface Permissions :NSObject
-@property (nonatomic , assign) BOOL              admin;
-@property (nonatomic , assign) BOOL              maintain;
-@property (nonatomic , assign) BOOL              push;
-@property (nonatomic , assign) BOOL              triage;
-@property (nonatomic , assign) BOOL              pull;
-
-@end
-
+#import "GCOwner.h"
+#import "GCLicense.h"
+#import "GCPermissions.h"
 
 @interface GCRepositoryListDatum :NSObject
 @property (nonatomic , assign) NSInteger              id_;
@@ -49,7 +9,7 @@
 @property (nonatomic , copy) NSString              * name;
 @property (nonatomic , copy) NSString              * full_name;
 @property (nonatomic , assign) BOOL              private_;
-@property (nonatomic , strong) Owner              * owner;
+@property (nonatomic , strong) GCOwner              * owner;
 @property (nonatomic , copy) NSString              * html_url;
 @property (nonatomic , copy) NSString              * description_;
 @property (nonatomic , assign) BOOL              fork;
@@ -110,7 +70,7 @@
 @property (nonatomic , assign) BOOL              archived;
 @property (nonatomic , assign) BOOL              disabled;
 @property (nonatomic , assign) NSInteger              open_issues_count;
-@property (nonatomic , strong) License              * license;
+@property (nonatomic , strong) GCLicense              * license;
 @property (nonatomic , assign) BOOL              allow_forking;
 @property (nonatomic , assign) BOOL              is_template;
 @property (nonatomic , copy) NSString              * visibility;
@@ -118,8 +78,8 @@
 @property (nonatomic , assign) NSInteger              open_issues;
 @property (nonatomic , assign) NSInteger              watchers;
 @property (nonatomic , copy) NSString              * default_branch;
-@property (nonatomic , strong) Permissions              * permissions;
+@property (nonatomic , strong) GCPermissions              * permissions;
 
 @end
 
-typedef NSArray<GCRepositoryListDatum*> GCRepositoryListData;
+typedef NSMutableArray<GCRepositoryListDatum*> GCRepositoryListData;
