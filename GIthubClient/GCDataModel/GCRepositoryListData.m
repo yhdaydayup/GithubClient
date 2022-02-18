@@ -12,7 +12,4 @@
 
 
 @implementation GCRepositoryListDatum
-+ (NSDictionary *)modelCustomPropertyMapper {
-    return @{@"description_":@"description"};
-}
 @end
