@@ -8,9 +8,11 @@
 
 #import "GCFilterView.h"
 #import <Masonry/Masonry.h>
+#import <ReactiveObjc.h>
 @interface GCFilterView () <UIPickerViewDataSource, UIPickerViewDelegate>
 @property (strong, nonatomic) UIPickerView *languagePickView;
 @property (strong, nonatomic) UIPickerView *sortPickView;
+@property (strong, nonatomic) UIImageView *orderImageView;
 @property (strong, nonatomic) UILabel *languageLabel;
 @property (strong, nonatomic) UILabel *sortLabel;
 @property (strong, nonatomic) UILabel *completeLabel;
@@ -36,6 +38,8 @@
         _languageLabel = [[UILabel alloc] init];
         _sortLabel = [[UILabel alloc] init];
         _completeLabel = [[UILabel alloc] init];
+        _orderImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"sort-down.png"]];
+        _orderRule = YES;
         
         _sortPickView.delegate = self;
         _sortPickView.dataSource = self;
@@ -43,14 +47,20 @@
         _languagePickView.delegate = self;
         _languagePickView.dataSource = self;
         
-        _languages = @[@"Any", @"C++", @"Java", @"Objective-c"];
-        _sortWays =  @[@"Best Match", @"Most Stars", @"Most forks", @"Recently updated"];
+        _languages = @[@"any", @"C++", @"Java", @"Objective-c"];
+        _sortWays =  @[@"best match", @"Most Stars", @"Most forks", @"Recently updated"];
 
         self.backgroundColor = [UIColor blackColor] ;
-        self.alpha = 0.7f;
         self.userInteractionEnabled = YES;
         UITapGestureRecognizer *myTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapBackgroundView:)];
         [self addGestureRecognizer:myTap];
+        
+        [_contentView addSubview:_orderImageView];
+        [_orderImageView mas_makeConstraints:^(MASConstraintMaker *make){
+            make.right.mas_equalTo(_contentView.mas_right).offset(-20);
+            make.top.mas_equalTo(_contentView.mas_top).offset(10);
+            make.height.width.mas_equalTo(40);
+        }];
 
         _contentView.backgroundColor = [UIColor whiteColor];
         UITapGestureRecognizer *tapBlock = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(blockTap)];
@@ -68,12 +78,13 @@
         [_contentView addSubview:sortText];
         [sortText mas_makeConstraints:^(MASConstraintMaker *make){
             make.left.mas_equalTo(_contentView.mas_left).offset(5);
-            make.top.mas_equalTo(_contentView.mas_top).offset(5);
+            make.top.mas_equalTo(_orderImageView.mas_bottom).offset(5);
             make.width.mas_equalTo(100);
             make.height.mas_equalTo(30);
         }];
 
-        _languageLabel.text = @"Any";
+        _languageLabel.text = @"any";
+        _language = @"any";
         _languageLabel.textAlignment = NSTextAlignmentCenter;
         [_contentView addSubview:_languageLabel];
         [_languageLabel mas_makeConstraints:^(MASConstraintMaker *make){
@@ -94,7 +105,8 @@
         }];
 
         [self addSubview:_sortLabel];
-        _sortLabel.text = @"Best Match";
+        _sortLabel.text = @"best Match";
+        self.sortBy = @"best Match";
         _sortLabel.textAlignment = NSTextAlignmentCenter;
         [_contentView addSubview:_sortLabel];
         [_sortLabel mas_makeConstraints:^(MASConstraintMaker *make){
@@ -133,6 +145,26 @@
         }];
         [self blockTap];
         
+
+        
+        @weakify(self);
+        [RACObserve(self.languageLabel, text) subscribeNext:^(id  _Nullable x) {
+            self.language = x;
+            NSLog(@"%@", self.language);
+        }];
+        [RACObserve(self.sortLabel, text) subscribeNext:^(id  _Nullable x) {
+            self.sortBy = x;
+            NSLog(@"%@", x);
+        }];
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] init];
+        [[tap rac_gestureSignal] subscribeNext:^(id x) {
+            self.orderRule = !self.orderRule;
+            NSString *orderImgPath = self.orderRule ? @"sort-down" : @"sort-up";
+            self.orderImageView.image = [UIImage imageNamed:orderImgPath];
+        }];
+        self.orderImageView.userInteractionEnabled = YES;
+        [self.orderImageView addGestureRecognizer:tap];
+        @strongify(self);
         [self addEvents];
     }
     return self;

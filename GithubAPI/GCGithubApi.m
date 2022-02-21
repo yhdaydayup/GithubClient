@@ -77,7 +77,7 @@ NSString *getRepositorySearch(void) {
 - (BOOL) loginWithAccount:(NSString *)account WithSecret:(NSString *)secret
 {
     //_access_token 会有有效期
-    _access_token = @"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";
+    _access_token = @"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";
     _headers = @{@"Authorization": [[NSString alloc] initWithFormat:@"token %@", _access_token]};
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:_access_token forKey:@"access_token"];
@@ -111,15 +111,12 @@ NSString *getRepositorySearch(void) {
 - (void)getWithUrl:(NSString*)url WithAcceptType:(contentType)type WithSuccessBlock:(successBlock)successBlock WithFailureBlock:(failureBlock)failureBlock{
     if(type == JSonContent) {
         _params = @{@"Accept" : @"application/vnd.github.v3+json"};
-//        _manager.responseSerializer = [AFJSONResponseSerializer serializer];
     }
     else if(type == RawContent) {
         _params = @{@"Accept" : @"application/vnd.github.VERSION.raw"};
-//        _manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     }
     else if(type == HtmlContent) {
         _params = @{@"Accept" : @"application/vnd.github.VERSION.html"};
-//        _manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     }
     [_manager GET:url parameters:_params headers:_headers progress:nil success:^(NSURLSessionDataTask* _Nonnull task, id responseObject){
         dispatch_async(dispatch_get_main_queue(), ^{

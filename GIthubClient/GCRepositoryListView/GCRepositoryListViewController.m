@@ -27,6 +27,12 @@
 
 @implementation GCRepositoryListViewController
 
+- (void) setData:(GCRepositoryListData*) aData{
+    _data = aData;
+}
+- (void) reloadData {
+    [self.tableView reloadData];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     _data = [[GCRepositoryListData alloc] init];

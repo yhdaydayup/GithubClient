@@ -10,8 +10,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface GCSearchRepositoryResultViewController : UIViewController
+typedef NS_ENUM(NSInteger, SelectStatus) {
+    ShowRepository,
+    ShowUser
+};
 
+@interface GCSearchRepositoryResultViewController : UIViewController
+- (void)searchForRepository:(NSString *)repos;
+- (void)searchForUser:(NSString *)user;
 @end
 
 NS_ASSUME_NONNULL_END

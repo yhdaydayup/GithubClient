@@ -10,11 +10,13 @@
 #import "configure.h"
 #import <Masonry/Masonry.h>
 #import "GCFilterView.h"
+#import <ReactiveObjC.h>
+#import "GCGithubAPI.h"
+#import "NSObject+GCDataModel.h"
+#import "GCRepositoryListData.h"
+#import "NSObject+GCDataModel.h"
+#import "GCRepositoryListViewController.h"
 
-typedef NS_ENUM(NSInteger, SelectStatus) {
-    ShowRepository,
-    ShowUser
-};
 
 @interface GCSearchRepositoryResultViewController ()
 @property (strong, nonatomic) UILabel *showRepositoryLabel;
@@ -23,6 +25,8 @@ typedef NS_ENUM(NSInteger, SelectStatus) {
 @property (strong, nonatomic) UIView *filterBar;
 @property (nonatomic) SelectStatus selectStatus;
 @property (strong, nonatomic) GCFilterView *filterView;
+@property (strong, nonatomic) GCRepositoryListViewController *repositoriesView;
+@property (strong, nonatomic) UIView *resultView;
 @end
 
 @implementation GCSearchRepositoryResultViewController
@@ -33,6 +37,7 @@ typedef NS_ENUM(NSInteger, SelectStatus) {
         _showUserLabel = [[UILabel alloc] init];
         _filter = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"filter.png"]];
         _filterView = [[GCFilterView alloc] init];
+        _resultView = [[UIView alloc] init];
         
         _showRepositoryLabel.text = @"仓库";
         _showUserLabel.text = @"用户";
@@ -79,6 +84,14 @@ typedef NS_ENUM(NSInteger, SelectStatus) {
         make.centerY.mas_equalTo(_filterBar.mas_centerY);
     }];
     
+    [self.view addSubview:_resultView];
+    [_resultView mas_makeConstraints:^(MASConstraintMaker *make){
+        make.left.mas_equalTo(self.view.mas_left).offset(5);
+        make.right.mas_equalTo(_filterBar.mas_right).offset(-5);
+        make.top.mas_equalTo(_filterBar.mas_bottom).offset(5);
+        make.bottom.mas_equalTo(self.view.mas_bottom).offset(-5);
+    }];
+    
     [self.view addSubview:_filterView];
     [_filterView mas_makeConstraints:^(MASConstraintMaker *make){
         make.left.mas_equalTo(self.view.mas_left);
@@ -113,7 +126,8 @@ typedef NS_ENUM(NSInteger, SelectStatus) {
     _selectStatus = ShowRepository;
     [self revertStyle];
     _showRepositoryLabel.textColor = search_result_filterLabel_selected_textColor;
-
+    [self searchForRepository:@"AFNetWorking"];
+    _resultView = _repositoriesView.view;
 }
 
 - (void) showUserSelected {
@@ -136,6 +150,30 @@ typedef NS_ENUM(NSInteger, SelectStatus) {
 - (void) showFilterView {
     _filterView.hidden = NO;
     [self.view bringSubviewToFront:_filterView];
+}
+
+- (void)searchForRepository:(NSString *)repos {
+//    q=tetris+language:assembly&sort=stars&order=desc
+    NSString *query = [[NSString alloc] initWithFormat:@"%@+language:%@&sort=%@&order=%@",repos, _filterView.language, _filterView.sortBy, _filterView.orderRule ? @"desc" : @"asc"];
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+    [params setObject:query forKey:@"q"];
+    __weak typeof(self) weakSelf = self;
+    [[GCGithubApi shareGCGithubApi] getWithUrl:@"https://api.github.com/search/repositories" WithAcceptType:JSonContent WithParams:params WithSuccessBlock:^(id responseObject) {
+            [weakSelf.repositoriesView setData:[GCRepositoryListDatum jsonsToModelsWithJsons:responseObject]];
+        NSLog(@"%@", responseObject);
+            [weakSelf.repositoriesView reloadData];
+        } WithFailureBlock:^(){
+        }
+    ];
+}
+- (void)searchForUser:(NSString *)user {
+    NSString *query = [[NSString alloc] initWithFormat:@"%@", user];
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+    [params setObject:query forKey:@"q"];
+    [[GCGithubApi shareGCGithubApi] getWithUrl:@"https://api.github.com/search/users" WithAcceptType:JSonContent WithParams:params WithSuccessBlock:^(id response) {
+        } WithFailureBlock:^(){
+        }
+    ];
 }
 
 /*

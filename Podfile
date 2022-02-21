@@ -1,5 +1,4 @@
 platform :ios, '14.2'
-
 target 'GithubClient' do
 	pod 'CocoaAsyncSocket'
 	pod 'AFNetworking', '~>4.0'
@@ -8,7 +7,8 @@ target 'GithubClient' do
 	pod 'YYModel'
 	pod 'YYText'
 	pod 'AttributedMarkdown', :git => 'https://github.com/dreamwieber/AttributedMarkdown.git'
-	pod 'Highlightr'
+  pod 'ReactiveObjC'
+	pod 'Highlightr3'
 end
 
 

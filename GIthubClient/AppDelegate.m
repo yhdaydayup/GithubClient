@@ -8,7 +8,6 @@
 #import "AppDelegate.h"
 #import "GCTabBarController.h"
 #import "GCLoginViewController.h"
-@import Highlightr;
 @interface AppDelegate ()
 
 @end

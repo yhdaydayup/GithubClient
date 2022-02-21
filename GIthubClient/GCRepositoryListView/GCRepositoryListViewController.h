@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GCRepositoryListData.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface GCRepositoryListViewController : UIViewController
-
+- (void) setData:(GCRepositoryListData*) aData;
+- (void) reloadData;
 @end
 
 NS_ASSUME_NONNULL_END

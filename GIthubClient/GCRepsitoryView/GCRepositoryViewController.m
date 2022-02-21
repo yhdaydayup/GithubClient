@@ -19,7 +19,6 @@
 #import "markdown_lib.h"
 #import "markdown_peg.h"
 #import "GCFolderViewController.h"
-@import Highlightr;
 
 NSMutableDictionary *markDownStyle(void)
 {
