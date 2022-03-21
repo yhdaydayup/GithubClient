@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "GCSearchModel.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 NSString *getAuthenticatedUserRepositoriesUrl(void);
@@ -43,6 +45,8 @@ typedef void(^failureBlock)(void);
 - (void)getWithUrl:(NSString*)url WithAcceptType:(contentType)type WithSuccessBlock:(successBlock)successBlock WithFailureBlock:(failureBlock)failureBlock;
 
 - (void)getWithUrl:(NSString*)url WithAcceptType:(contentType)type WithParams:(NSMutableDictionary*)params WithSuccessBlock:(successBlock)successBlock WithFailureBlock:(failureBlock)failureBlock;
+
+- (void)getWithSearchModel:(GCSearchModel*)model WithAcceptType:(contentType)type WithSuccessBlock:(successBlock)successBlock WithFailureBlock:(failureBlock)failureBlock;
 
 
 - (void)putWithUrl:(NSString*)url WithSuccessBlock:(successBlock)successBlock WithFailureBlock:(failureBlock)failureBlock;

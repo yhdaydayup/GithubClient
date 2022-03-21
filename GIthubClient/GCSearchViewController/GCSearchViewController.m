@@ -176,7 +176,7 @@
         [_data removeLastObject];
     }
     [_searchBar resignFirstResponder];
-    GCSearchRepositoryResultViewController *resultVC = [[GCSearchRepositoryResultViewController alloc] init];
+    GCSearchRepositoryResultViewController *resultVC = [[GCSearchRepositoryResultViewController alloc] initWithSearchText:_searchBar.text];
     [self.navigationController pushViewController:resultVC animated:YES];
 }
 @end

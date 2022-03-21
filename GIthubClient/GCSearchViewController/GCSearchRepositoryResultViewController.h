@@ -16,8 +16,7 @@ typedef NS_ENUM(NSInteger, SelectStatus) {
 };
 
 @interface GCSearchRepositoryResultViewController : UIViewController
-- (void)searchForRepository:(NSString *)repos;
-- (void)searchForUser:(NSString *)user;
+- (instancetype) initWithSearchText:(NSString *)text;
 @end
 
 NS_ASSUME_NONNULL_END

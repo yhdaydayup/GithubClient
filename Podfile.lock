@@ -15,21 +15,27 @@ PODS:
   - AFNetworking/UIKit (4.0.1):
     - AFNetworking/NSURLSession
   - AttributedMarkdown (0.9.2)
+  - Charts (4.0.2):
+    - Charts/Core (= 4.0.2)
+  - Charts/Core (4.0.2):
+    - SwiftAlgorithms (~> 1.0)
   - CocoaAsyncSocket (7.6.5)
-  - Highlightr3 (3.0.3)
+  - Highlightr (2.1.0)
   - Masonry (1.1.0)
   - ReactiveObjC (3.1.1)
   - SDWebImage (5.12.3):
     - SDWebImage/Core (= 5.12.3)
   - SDWebImage/Core (5.12.3)
+  - SwiftAlgorithms (1.0.0)
   - YYModel (1.0.4)
   - YYText (1.0.7)
 
 DEPENDENCIES:
   - AFNetworking (~> 4.0)
   - AttributedMarkdown (from `https://github.com/dreamwieber/AttributedMarkdown.git`)
+  - Charts
   - CocoaAsyncSocket
-  - Highlightr3
+  - Highlightr
   - Masonry
   - ReactiveObjC
   - SDWebImage
@@ -39,11 +45,13 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - AFNetworking
+    - Charts
     - CocoaAsyncSocket
-    - Highlightr3
+    - Highlightr
     - Masonry
     - ReactiveObjC
     - SDWebImage
+    - SwiftAlgorithms
     - YYModel
     - YYText
 
@@ -59,14 +67,16 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   AFNetworking: 7864c38297c79aaca1500c33288e429c3451fdce
   AttributedMarkdown: ac5060667280be8cc8ee33a46c73e4ec6b17ca1a
+  Charts: cfa4e911e6dc289582c2fe011a0e87c03d96727f
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
-  Highlightr3: 7dc66a822503c90502ef2b7eb8e5eb98b6d91444
+  Highlightr: 595f3e100737c8de41113385da8bd0b5b65212c6
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   ReactiveObjC: 011caa393aa0383245f2dcf9bf02e86b80b36040
   SDWebImage: 53179a2dba77246efa8a9b85f5c5b21f8f43e38f
+  SwiftAlgorithms: 38dda4731d19027fdeee1125f973111bf3386b53
   YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
   YYText: 5c461d709e24d55a182d1441c41dc639a18a4849
 
-PODFILE CHECKSUM: 02baa708dcdd988f4d9bf819abb08ecae55238d1
+PODFILE CHECKSUM: 8eed3edfc91c5fa335a81e50a73ab7072b8b1e61
 
 COCOAPODS: 1.11.2

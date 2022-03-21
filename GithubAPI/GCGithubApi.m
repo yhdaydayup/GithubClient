@@ -131,6 +131,30 @@ NSString *getRepositorySearch(void) {
     }];
 }
 
+- (void)getWithSearchModel:(GCSearchModel*)model WithAcceptType:(contentType)type WithSuccessBlock:(successBlock)successBlock WithFailureBlock:(failureBlock)failureBlock
+{
+     if(type == JSonContent) {
+        [model.params setObject:@"Accept" forKey:@"application/vnd.github.v3+json"];
+    }
+    else if(type == RawContent) {
+        [model.params setObject:@"Accept" forKey:@"application/vnd.github.VERSION.raw"];
+    }
+    else if(type == HtmlContent) {
+        [model.params setObject:@"Accept" forKey:@"application/vnd.github.VERSION.html"];
+    }
+    [_manager GET:model.url parameters:model.params headers:_headers progress:nil success:^(NSURLSessionDataTask* _Nonnull task, id responseObject){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSLog(@"%@", task.currentRequest);
+            successBlock(responseObject);
+        });
+    } failure:^(NSURLSessionDataTask *task, NSError *error){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSLog(@"%@", error);
+            failureBlock();
+        });
+    }];
+}
+
 - (void)getWithUrl:(NSString*)url WithAcceptType:(contentType)type WithParams:(NSMutableDictionary*)params WithSuccessBlock:(successBlock)successBlock WithFailureBlock:(failureBlock)failureBlock{
     if(type == JSonContent) {
         [params setObject:@"Accept" forKey:@"application/vnd.github.v3+json"];

@@ -16,6 +16,9 @@
 #import "GCRepositoryListData.h"
 #import "NSObject+GCDataModel.h"
 #import "GCRepositoryListViewController.h"
+#import "GCSearchModel.h"
+#import <ReactiveObjc.h>
+
 
 
 @interface GCSearchRepositoryResultViewController ()
@@ -25,12 +28,14 @@
 @property (strong, nonatomic) UIView *filterBar;
 @property (nonatomic) SelectStatus selectStatus;
 @property (strong, nonatomic) GCFilterView *filterView;
-@property (strong, nonatomic) GCRepositoryListViewController *repositoriesView;
+@property (strong, nonatomic) GCRepositoryListViewController *repositoriesVC;
 @property (strong, nonatomic) UIView *resultView;
+@property (strong, nonatomic) GCSearchModel* searchModel;
+@property (copy, nonatomic) NSString *searchText;
 @end
 
 @implementation GCSearchRepositoryResultViewController
-- (instancetype) init {
+- (instancetype) initWithSearchText:(NSString *)text {
     if(self = [super init]) {
         _filterBar = [[UIView alloc] init];
         _showRepositoryLabel = [[UILabel alloc] init];
@@ -38,9 +43,12 @@
         _filter = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"filter.png"]];
         _filterView = [[GCFilterView alloc] init];
         _resultView = [[UIView alloc] init];
+        _repositoriesVC = [[GCRepositoryListViewController alloc] init];
         
         _showRepositoryLabel.text = @"仓库";
         _showUserLabel.text = @"用户";
+        _searchText = text;
+        _searchModel = [[GCSearchModel alloc] initWithUrl:@"" WithParams:[NSMutableDictionary new] WithHeaders:[NSMutableDictionary new]];
     }
     return self;
 }
@@ -102,6 +110,15 @@
     _filterView.hidden = YES;
     [self.view bringSubviewToFront:_filterView];
     
+    [_resultView addSubview:_repositoriesVC.view];
+    [_repositoriesVC.view mas_makeConstraints:^(MASConstraintMaker *make){
+        make.left.mas_equalTo(_resultView.mas_left);
+        make.right.mas_equalTo(_resultView.mas_right);
+        make.top.mas_equalTo(_resultView.mas_top);
+        make.bottom.mas_equalTo(_resultView.mas_bottom);
+    }];
+    _repositoriesVC.nav = self.navigationController;
+    
     [self addEvents];
     
     [self showRepositorySelected];
@@ -119,6 +136,10 @@
     [_filter addGestureRecognizer:tapFilter];
     _filter.userInteractionEnabled = YES;
     
+    UITapGestureRecognizer *tapCompleteLabel = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showRepositorySelected)];
+    [_filterView.completeLabel addGestureRecognizer:tapCompleteLabel];
+    _filterView.completeLabel.userInteractionEnabled = YES;
+    
     _selectStatus = ShowRepository;
 }
 
@@ -126,8 +147,7 @@
     _selectStatus = ShowRepository;
     [self revertStyle];
     _showRepositoryLabel.textColor = search_result_filterLabel_selected_textColor;
-    [self searchForRepository:@"AFNetWorking"];
-    _resultView = _repositoriesView.view;
+    [self searchForRepository];
 }
 
 - (void) showUserSelected {
@@ -152,28 +172,22 @@
     [self.view bringSubviewToFront:_filterView];
 }
 
-- (void)searchForRepository:(NSString *)repos {
+- (void)searchForRepository{
 //    q=tetris+language:assembly&sort=stars&order=desc
-    NSString *query = [[NSString alloc] initWithFormat:@"%@+language:%@&sort=%@&order=%@",repos, _filterView.language, _filterView.sortBy, _filterView.orderRule ? @"desc" : @"asc"];
     NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
-    [params setObject:query forKey:@"q"];
-    __weak typeof(self) weakSelf = self;
-    [[GCGithubApi shareGCGithubApi] getWithUrl:@"https://api.github.com/search/repositories" WithAcceptType:JSonContent WithParams:params WithSuccessBlock:^(id responseObject) {
-            [weakSelf.repositoriesView setData:[GCRepositoryListDatum jsonsToModelsWithJsons:responseObject]];
-        NSLog(@"%@", responseObject);
-            [weakSelf.repositoriesView reloadData];
-        } WithFailureBlock:^(){
-        }
-    ];
-}
-- (void)searchForUser:(NSString *)user {
-    NSString *query = [[NSString alloc] initWithFormat:@"%@", user];
-    NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
-    [params setObject:query forKey:@"q"];
-    [[GCGithubApi shareGCGithubApi] getWithUrl:@"https://api.github.com/search/users" WithAcceptType:JSonContent WithParams:params WithSuccessBlock:^(id response) {
-        } WithFailureBlock:^(){
-        }
-    ];
+    [params setObject:_searchText forKey:@"q"];
+    [params setObject:@"100" forKey:@"per_page"];
+    [params setObject:_filterView.orderRule ? @"desc" : @"asc" forKey:@"order"];
+
+    NSMutableDictionary *headers = [[NSMutableDictionary alloc] init];
+    [headers setObject:_filterView.language forKey:@"language"];
+    [headers setObject:_filterView.sortBy forKey:@"sort"];
+    _searchModel.params = params;
+    _searchModel.headers = headers;
+    _searchModel.url = @"https://api.github.com/search/repositories";
+    [_repositoriesVC setModel:_searchModel];
+    _repositoriesVC.view.hidden = NO;
+    _filterView.hidden = YES;
 }
 
 /*

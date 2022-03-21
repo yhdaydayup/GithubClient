@@ -1,6 +1,0 @@
-module Highlightr3 {
-  umbrella header "Highlightr3-umbrella.h"
-
-  export *
-  module * { export * }
-}

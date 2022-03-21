@@ -9,7 +9,7 @@
 #import "NSObject+GCDataModel.h"
 #import <YYModel/YYModel.h>
 @implementation NSObject (GCDataModel)
-+ (NSArray *)jsonsToModelsWithJsons:(NSArray *)jsons {
++ (NSMutableArray *)jsonsToModelsWithJsons:(NSArray *)jsons {
     NSMutableArray *models = [NSMutableArray array];
     for (NSDictionary *json in jsons) {
         id model = [[self class] yy_modelWithJSON:json];

@@ -26,88 +26,149 @@
 @end
 
 @implementation GCRepositoryListViewController
+-(instancetype)init {
+    if(self = [super init]) {
+        _data = [[GCRepositoryListData alloc] init];
+        _tableView = [[UITableView alloc] init];
+        self.tableView.backgroundColor = self.view.backgroundColor;
+        _tableView.separatorColor = [UIColor clearColor];
+        _tableView.delegate = self;
+        _tableView.dataSource = self;
+        [_tableView registerClass:[GCRepositoryTableViewCell class] forCellReuseIdentifier:@"RepositoryTableViewCell"];
+        [self.view layoutIfNeeded];
+        [self.view addSubview:_tableView];
+        [_tableView mas_makeConstraints:^(MASConstraintMaker *make){
+            make.left.mas_equalTo(self.view.mas_left).offset(5);
+            make.right.mas_equalTo(self.view.mas_right).offset(-5);
+            make.top.mas_equalTo(self.view.mas_top).offset(5);
+            make.bottom.mas_equalTo(self.view.mas_bottom);
+        }];
+        _tableView.estimatedRowHeight = 200;
+        _tableView.rowHeight = UITableViewAutomaticDimension;
+        [_tableView setHidden:YES];
+        
+        //tableView自己的inset
+        //    _tableView.contentInset = UIEdgeInsetsMake(5, 5, 5, 5);
+        //    _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+        // Do any additional setup after loading the view.
+        
+        _loadingImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"loading.png"]];
+        [self.view addSubview:_loadingImageView];
+        [_loadingImageView mas_makeConstraints:^(MASConstraintMaker *make){
+            make.top.mas_equalTo(self.view.mas_top).offset(100);
+            make.centerX.mas_equalTo(self.view.mas_centerX);
+            make.height.and.width.mas_equalTo(self.view.mas_width).multipliedBy(0.2);
+        }];
+        
+        _refreshingView = [[UIView alloc] init];
+        [_tableView addSubview:_refreshingView];
+        [_refreshingView mas_makeConstraints:^(MASConstraintMaker *make){
+            make.bottom.mas_equalTo(_tableView.mas_top);
+            make.height.mas_equalTo(100);
+            make.width.mas_equalTo(self.view.mas_width);
+            make.left.mas_equalTo(_tableView.mas_left);
+        }];
+        
+        _freshingLabel = [[UILabel alloc] init];
+        _freshingLabel.text = @"下拉刷新";
+        _freshingLabel.textAlignment = NSTextAlignmentCenter;
+        [_refreshingView addSubview:_freshingLabel];
+        [_freshingLabel mas_makeConstraints:^(MASConstraintMaker *make){
+            make.top.mas_equalTo(_refreshingView.mas_top);
+            make.height.mas_equalTo(_refreshingView.mas_height).multipliedBy(0.3);
+            make.width.mas_equalTo(_refreshingView.mas_width);
+            make.centerX.mas_equalTo(_refreshingView.mas_centerX);
+        }];
+        
+        UIImageView *freshingImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"loading.png"]];
+        [_refreshingView addSubview:freshingImageView];
+        [freshingImageView mas_makeConstraints:^(MASConstraintMaker *make){
+            make.top.mas_equalTo(_freshingLabel.mas_bottom).offset(10);
+            make.bottom.mas_equalTo(_refreshingView.mas_bottom);
+            make.width.mas_equalTo(freshingImageView.mas_height);
+            make.centerX.mas_equalTo(_refreshingView.mas_centerX);
+        }];
+    }
+    return self;
+}
 
+-(void)typeAct:(RepositoryType)type {
+    GCGithubApi *githubApi = [GCGithubApi shareGCGithubApi];
+    __weak typeof(self) weakSelf = self;
+//    if(type == Search) {
+//        [githubApi getWithSearchModel:_model WithAcceptType:JSonContent WithSuccessBlock:^(id responseObject){
+//            if([NSStringFromClass([responseObject class]) isEqual:@"__NSDictionaryI"]) {
+//                responseObject = responseObject[@"items"];
+//            }
+//            weakSelf.data = [GCRepositoryListDatum jsonsToModelsWithJsons:responseObject];
+//
+//            [weakSelf.loadingImageView setHidden:YES];
+//            weakSelf.refreshingView.hidden = YES;
+//            [weakSelf.tableView setHidden:NO];
+//            [weakSelf.tableView reloadData];
+//            [weakSelf.view layoutIfNeeded];
+//            weakSelf.topOffset = weakSelf.tableView.contentOffset.y;
+//        } WithFailureBlock:^{
+//        }];
+//    }
+    if(type == Star) {
+        [githubApi getWithUrl:getAuthenticatedUserInfo() WithAcceptType:JSonContent WithSuccessBlock:^(id userInfo) {
+            NSString *userName = [userInfo objectForKey:@"login"];
+            [[GCGithubApi shareGCGithubApi] getWithUrl:getUserStarRepositoryUrl(userName) WithAcceptType:JSonContent WithSuccessBlock:^(id responseObject){
+                weakSelf.data = [GCRepositoryListDatum jsonsToModelsWithJsons:responseObject];
+                [weakSelf.loadingImageView setHidden:YES];
+                weakSelf.refreshingView.hidden = YES;
+                [weakSelf.tableView setHidden:NO];
+                [weakSelf.tableView reloadData];
+                [weakSelf.view layoutIfNeeded];
+                weakSelf.topOffset = weakSelf.tableView.contentOffset.y;
+            } WithFailureBlock:^{
+            }];
+        } WithFailureBlock:^{}];
+    }
+    else if(type == User) {
+        [githubApi getWithUrl:getAuthenticatedUserRepositoriesUrl() WithAcceptType:JSonContent WithSuccessBlock:^(id responseObject){
+            weakSelf.data = [GCRepositoryListDatum jsonsToModelsWithJsons:responseObject];
+            [weakSelf.loadingImageView setHidden:YES];
+            weakSelf.refreshingView.hidden = YES;
+            [weakSelf.tableView setHidden:NO];
+            [weakSelf.tableView reloadData];
+            [weakSelf.view layoutIfNeeded];
+            weakSelf.topOffset = weakSelf.tableView.contentOffset.y;
+        } WithFailureBlock:^{
+        }];
+    }
+}
 - (void) setData:(GCRepositoryListData*) aData{
     _data = aData;
 }
 - (void) reloadData {
-    [self.tableView reloadData];
-}
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    _data = [[GCRepositoryListData alloc] init];
-    _tableView = [[UITableView alloc] init];
-    self.tableView.backgroundColor = self.view.backgroundColor;
-    _tableView.separatorColor = [UIColor clearColor];
-    _tableView.delegate = self;
-    _tableView.dataSource = self;
-    [_tableView registerClass:[GCRepositoryTableViewCell class] forCellReuseIdentifier:@"RepositoryTableViewCell"];
-    [self.view layoutIfNeeded];
-    [self.view addSubview:_tableView];
-    [_tableView mas_makeConstraints:^(MASConstraintMaker *make){
-        make.left.mas_equalTo(self.view.mas_left).offset(5);
-        make.right.mas_equalTo(self.view.mas_right).offset(-5);
-        make.top.mas_equalTo(self.view.mas_top).offset(5);
-        make.bottom.mas_equalTo(self.view.mas_bottom);
-    }];
-    _tableView.estimatedRowHeight = 200;
-    _tableView.rowHeight = UITableViewAutomaticDimension;
-    [_tableView setHidden:YES];
-    
-    //tableView自己的inset
-    //    _tableView.contentInset = UIEdgeInsetsMake(5, 5, 5, 5);
-    //    _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-    // Do any additional setup after loading the view.
-    
-    _loadingImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"loading.png"]];
-    [self.view addSubview:_loadingImageView];
-    [_loadingImageView mas_makeConstraints:^(MASConstraintMaker *make){
-        make.top.mas_equalTo(self.view.mas_top).offset(100);
-        make.centerX.mas_equalTo(self.view.mas_centerX);
-        make.height.and.width.mas_equalTo(self.view.mas_width).multipliedBy(0.2);
-    }];
-    
-    _refreshingView = [[UIView alloc] init];
-    [_tableView addSubview:_refreshingView];
-    [_refreshingView mas_makeConstraints:^(MASConstraintMaker *make){
-        make.bottom.mas_equalTo(_tableView.mas_top);
-        make.height.mas_equalTo(100);
-        make.width.mas_equalTo(self.view.mas_width);
-        make.left.mas_equalTo(_tableView.mas_left);
-    }];
-    
-    _freshingLabel = [[UILabel alloc] init];
-    _freshingLabel.text = @"下拉刷新";
-    _freshingLabel.textAlignment = NSTextAlignmentCenter;
-    [_refreshingView addSubview:_freshingLabel];
-    [_freshingLabel mas_makeConstraints:^(MASConstraintMaker *make){
-        make.top.mas_equalTo(_refreshingView.mas_top);
-        make.height.mas_equalTo(_refreshingView.mas_height).multipliedBy(0.3);
-        make.width.mas_equalTo(_refreshingView.mas_width);
-        make.centerX.mas_equalTo(_refreshingView.mas_centerX);
-    }];
-    
-    UIImageView *freshingImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"loading.png"]];
-    [_refreshingView addSubview:freshingImageView];
-    [freshingImageView mas_makeConstraints:^(MASConstraintMaker *make){
-        make.top.mas_equalTo(_freshingLabel.mas_bottom).offset(10);
-        make.bottom.mas_equalTo(_refreshingView.mas_bottom);
-        make.width.mas_equalTo(freshingImageView.mas_height);
-        make.centerX.mas_equalTo(_refreshingView.mas_centerX);
-    }];
-    
+    [self.loadingImageView setHidden:NO];
+    self.refreshingView.hidden = NO;
+    self.tableView.hidden = YES;
     GCGithubApi *githubApi = [GCGithubApi shareGCGithubApi];
     __weak typeof(self) weakSelf = self;
-    [githubApi getWithUrl:getAuthenticatedUserRepositoriesUrl() WithAcceptType:JSonContent WithSuccessBlock:^(id responseObject){
+    [githubApi getWithSearchModel:_model WithAcceptType:JSonContent WithSuccessBlock:^(id responseObject){
+        if([NSStringFromClass([responseObject class]) isEqual:@"__NSDictionaryI"]) {
+            responseObject = responseObject[@"items"];
+        }
         weakSelf.data = [GCRepositoryListDatum jsonsToModelsWithJsons:responseObject];
         [weakSelf.loadingImageView setHidden:YES];
         weakSelf.refreshingView.hidden = YES;
         [weakSelf.tableView setHidden:NO];
         [weakSelf.tableView reloadData];
         [weakSelf.view layoutIfNeeded];
-        weakSelf.topOffset = weakSelf.tableView.contentOffset.y;
+        [weakSelf.tableView reloadData];
     } WithFailureBlock:^{
     }];
+}
+- (void)setModel:(GCSearchModel *)aModel {
+    _model = aModel;
+    [self reloadData];
+}
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
     
     [self.view layoutIfNeeded];
 }
@@ -126,7 +187,12 @@
 {
     [_tableView deselectRowAtIndexPath:indexPath animated:NO];
     GCRepositoryViewController *vc = [[GCRepositoryViewController alloc] initWithFullName:_data[indexPath.row].full_name];
-    [self.navigationController pushViewController:vc animated:YES];
+    if(_nav) {
+        [_nav pushViewController:vc animated:YES];
+    }
+    else {
+        [self.navigationController pushViewController:vc animated:YES];
+    }
     return;
 }
 
@@ -138,10 +204,10 @@
         [self.tableView reloadData];
     }];
     deleteRowAction.backgroundColor = [UIColor redColor];
-
+    
     UISwipeActionsConfiguration *config = [UISwipeActionsConfiguration configurationWithActions:@[deleteRowAction]];
     //是否让cell 进行全滑动时是否执行
-//    config.performsFirstActionWithFullSwipe = NO;
+    //    config.performsFirstActionWithFullSwipe = NO;
     return config;
 }
 
@@ -200,11 +266,13 @@
             weakSelf.tableView.contentInset = UIEdgeInsetsZero;
             [weakSelf.tableView setHidden:NO];
         };
-        [githubApi getWithUrl:getAuthenticatedUserRepositoriesUrl() WithAcceptType:JSonContent WithSuccessBlock:^(id responseObject){
+        [githubApi getWithSearchModel:_model WithAcceptType:JSonContent WithSuccessBlock:^(id responseObject) {
+            if([NSStringFromClass([responseObject class]) isEqual:@"__NSDictionaryI"]) {
+                responseObject = responseObject[@"items"];
+            }
             weakSelf.data = [GCRepositoryListDatum jsonsToModelsWithJsons:responseObject];
             [weakSelf.tableView reloadData];
             endBlock();
-            
         } WithFailureBlock:^{
             endBlock();
         }];
@@ -228,39 +296,4 @@
         _refreshingView.hidden = YES;
     }
 }
-
-//按section ID设置头部信息
-//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-//    NSString *sectionTitle = [self tableView:tableView titleForHeaderInSection:section];
-//    if (sectionTitle == nil) {
-//        return nil;
-//    }
-//    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, [self tableView:_tableView heightForHeaderInSection:0])];
-//
-//    UILabel *label = [[UILabel alloc] init];
-//    label.backgroundColor = TabBarPage_Background_color;
-//    label.textColor = TabBarPage_TextColor;
-//    label.font = [UIFont boldSystemFontOfSize:20];
-//    label.text = sectionTitle;
-//
-//    [view addSubview:label];
-//    [label mas_makeConstraints:^(MASConstraintMaker* make){
-//        make.top.mas_equalTo(view.mas_top);
-//        make.left.mas_equalTo(view.mas_left);
-//        make.right.mas_equalTo(view.mas_right);
-//        make.height.mas_equalTo(view.mas_height);
-//    }];
-//
-//    return view;
-//}
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
-
 @end

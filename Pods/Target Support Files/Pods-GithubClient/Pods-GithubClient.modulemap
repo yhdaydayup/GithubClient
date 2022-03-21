@@ -1,4 +1,4 @@
-module Pods_GithubClient {
+framework module Pods_GithubClient {
   umbrella header "Pods-GithubClient-umbrella.h"
 
   export *

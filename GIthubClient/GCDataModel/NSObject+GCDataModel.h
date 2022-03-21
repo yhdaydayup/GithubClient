@@ -10,7 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface NSObject (GCDataModel)
-+ (NSArray *)jsonsToModelsWithJsons:(NSArray *)jsons;
++ (NSMutableArray *)jsonsToModelsWithJsons:(NSArray *)jsons;
 @end
 
 NS_ASSUME_NONNULL_END

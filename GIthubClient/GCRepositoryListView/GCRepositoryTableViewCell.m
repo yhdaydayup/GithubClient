@@ -110,7 +110,8 @@
         [_forkCount mas_makeConstraints:^(MASConstraintMaker* make){
             make.right.mas_equalTo(self.cellView.mas_right).multipliedBy(0.9);
             make.bottom.mas_equalTo(self.cellView.mas_bottom).offset(-5);
-            make.height.and.width.mas_equalTo(self.cellView.mas_width).multipliedBy(0.05);
+            make.height.mas_equalTo(self.cellView.mas_width).multipliedBy(0.05);
+            make.width.mas_equalTo(self.cellView.mas_width).multipliedBy(0.2);
         }];
         setRequiredOnVerticalAndHorizontalForUIView(_forkCount);
 
@@ -128,7 +129,8 @@
         [_starCount mas_makeConstraints:^(MASConstraintMaker* make){
             make.right.mas_equalTo(_forkImageView.mas_left).offset(-20);
             make.bottom.mas_equalTo(self.cellView.mas_bottom).offset(-5);
-            make.height.width.mas_equalTo(self.cellView.mas_width).multipliedBy(0.05);
+            make.height.mas_equalTo(self.cellView.mas_width).multipliedBy(0.05);
+            make.width.mas_equalTo(self.cellView.mas_width).multipliedBy(0.2);
         }];
         setRequiredOnVerticalAndHorizontalForUIView(_starCount);
 
@@ -250,7 +252,7 @@
     [_forkCount sizeToFit];
 
     _starCount.text = aData.stargazers_count;
-    [_forkCount sizeToFit];
+    [_starCount sizeToFit];
     
     [self checkStared];
 }

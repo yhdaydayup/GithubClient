@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSString *sortBy;
 @property (strong, nonatomic) NSString *language;
 @property (nonatomic) BOOL orderRule;
+@property (strong, nonatomic) UILabel *completeLabel;
 @end
 
 NS_ASSUME_NONNULL_END

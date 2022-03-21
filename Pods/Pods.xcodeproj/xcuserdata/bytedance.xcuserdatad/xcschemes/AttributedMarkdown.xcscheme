@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "A30051814C63F00BE6A684F35ACD56F6"
-               BuildableName = "libAttributedMarkdown.a"
+               BuildableName = "AttributedMarkdown.framework"
                BlueprintName = "AttributedMarkdown"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>

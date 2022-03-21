@@ -10,7 +10,6 @@
 #import "GCWorkSpaceTableViewCellModel.h"
 #import "GCWorkSpaceTableViewCell.h"
 #import "GCRepositoryListViewController.h"
-#import "GCStarredReposViewController.h"
 #import <Masonry/Masonry.h>
 #import "configure.h"
 
@@ -28,7 +27,7 @@
     [_data addObject:[[GCWorkSpaceTableViewCellModel alloc] initWithClassName:@"GCRepositoryListViewController" WithTitle:@"合并请求" WithImagePath:@"request.png"]];
     [_data addObject:[[GCWorkSpaceTableViewCellModel alloc] initWithClassName:@"GCRepositoryListViewController" WithTitle:@"组织" WithImagePath:@"organization.png"]];
     [_data addObject:[[GCWorkSpaceTableViewCellModel alloc] initWithClassName:@"GCRepositoryListViewController" WithTitle:@"仓库" WithImagePath:@"repository.png"]];
-    [_data addObject:[[GCWorkSpaceTableViewCellModel alloc] initWithClassName:@"GCStarredReposViewController" WithTitle:@"标星" WithImagePath:@"star-fill.png"]];
+    [_data addObject:[[GCWorkSpaceTableViewCellModel alloc] initWithClassName:@"GCRepositoryListViewController" WithTitle:@"标星" WithImagePath:@"star-fill.png"]];
     [_data addObject:[[GCWorkSpaceTableViewCellModel alloc] initWithClassName:@"GCRepositoryListViewController" WithTitle:@"动态" WithImagePath:@"dynamic.png"]];
     
     _topView = [[UIView alloc] init];
@@ -100,6 +99,16 @@
     }
     UIViewController *responseVC = [[vcClass alloc] init];
     responseVC.view.backgroundColor = self.view.backgroundColor;
+    if(indexPath.row == 3) {
+        if([responseVC isKindOfClass:[GCRepositoryListViewController class]]) {
+            [(GCRepositoryListViewController*)responseVC typeAct:User];
+        }
+    }
+    else {
+        if([responseVC isKindOfClass:[GCRepositoryListViewController class]]) {
+            [(GCRepositoryListViewController*)responseVC typeAct:Star];
+        }
+    }
     [self.navigationController pushViewController:responseVC animated:YES];
     [_tableView deselectRowAtIndexPath:indexPath animated:NO];
     return;
@@ -162,7 +171,6 @@
         make.right.mas_equalTo(view.mas_right);
         make.height.mas_equalTo(view.mas_height);
     }];
-    
     return view;
 }
 @end

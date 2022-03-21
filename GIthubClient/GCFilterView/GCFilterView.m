@@ -15,7 +15,6 @@
 @property (strong, nonatomic) UIImageView *orderImageView;
 @property (strong, nonatomic) UILabel *languageLabel;
 @property (strong, nonatomic) UILabel *sortLabel;
-@property (strong, nonatomic) UILabel *completeLabel;
 @property (strong, nonatomic) UIView *contentView;
 @property (strong, nonatomic) NSArray *languages;
 @property (strong, nonatomic) NSArray *sortWays;
@@ -48,7 +47,7 @@
         _languagePickView.dataSource = self;
         
         _languages = @[@"any", @"C++", @"Java", @"Objective-c"];
-        _sortWays =  @[@"best match", @"Most Stars", @"Most forks", @"Recently updated"];
+        _sortWays =  @[@"BestMatch", @"Stars", @"Forks", @"RecentlyUpdated"];
 
         self.backgroundColor = [UIColor blackColor] ;
         self.userInteractionEnabled = YES;
@@ -105,8 +104,8 @@
         }];
 
         [self addSubview:_sortLabel];
-        _sortLabel.text = @"best Match";
-        self.sortBy = @"best Match";
+        _sortLabel.text = @"BestMatch";
+        self.sortBy = @"BestMatch";
         _sortLabel.textAlignment = NSTextAlignmentCenter;
         [_contentView addSubview:_sortLabel];
         [_sortLabel mas_makeConstraints:^(MASConstraintMaker *make){
