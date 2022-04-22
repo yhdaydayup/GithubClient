@@ -21,6 +21,11 @@
 		2B389E4D27A3FAFD00A510FF /* GCPermissions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B389E4C27A3FAFD00A510FF /* GCPermissions.m */; };
 		2B389E5027A3FBCF00A510FF /* GCSearchRepositoryResultData.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B389E4F27A3FBCE00A510FF /* GCSearchRepositoryResultData.m */; };
 		2B66980427B10DF300BFF092 /* GCFilterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B66980327B10DF300BFF092 /* GCFilterView.m */; };
+		2B7FD525281241A900ECA6A7 /* GCFollowerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B7FD524281241A900ECA6A7 /* GCFollowerViewController.m */; };
+		2BA6FC6427FC5EF4008D38E9 /* GCUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BA6FC6327FC5EF4008D38E9 /* GCUserViewController.m */; };
+		2BA6FC6827FC6731008D38E9 /* GCUserListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BA6FC6727FC6731008D38E9 /* GCUserListViewController.m */; };
+		2BA6FC6B27FC6751008D38E9 /* GCUserListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BA6FC6A27FC6751008D38E9 /* GCUserListTableViewCell.m */; };
+		2BA6FC7027FC6B0A008D38E9 /* GCUserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BA6FC6F27FC6B0A008D38E9 /* GCUserModel.m */; };
 		2BC6A444278D6DEE002901D0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC6A443278D6DEE002901D0 /* AppDelegate.m */; };
 		2BC6A44A278D6DEE002901D0 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC6A449278D6DEE002901D0 /* ViewController.m */; };
 		2BC6A44F278D6DF1002901D0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2BC6A44E278D6DF1002901D0 /* Assets.xcassets */; };
@@ -34,6 +39,10 @@
 		2BC6A4C4278ED4C1002901D0 /* GCWorkSpaceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC6A4C3278ED4C1002901D0 /* GCWorkSpaceTableViewCell.m */; };
 		2BC6A4CD279046D4002901D0 /* GCRepositoryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC6A4CC279046D4002901D0 /* GCRepositoryTableViewCell.m */; };
 		2BC6A4D427915BD5002901D0 /* GCRepositoryListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC6A4D327915BD5002901D0 /* GCRepositoryListViewController.m */; };
+		2BD08A5927E9B9AF00B0C5D1 /* GCPersonalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BD08A5827E9B9AF00B0C5D1 /* GCPersonalViewController.m */; };
+		2BD08A5F27E9C2DB00B0C5D1 /* GCPersonalTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BD08A5E27E9C2DB00B0C5D1 /* GCPersonalTableViewCell.m */; };
+		2BD08A6627EAB0D300B0C5D1 /* UILabel+Font.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BD08A6527EAB0D300B0C5D1 /* UILabel+Font.m */; };
+		2BD08A6F27F84DEE00B0C5D1 /* GCBlankViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BD08A6E27F84DEE00B0C5D1 /* GCBlankViewController.m */; };
 		2BF26341279565B1000CC41C /* GCRepositoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF26340279565B1000CC41C /* GCRepositoryViewController.m */; };
 		2BF263472796A1D4000CC41C /* GCTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF263462796A1D4000CC41C /* GCTools.m */; };
 		2BF2634B2799133A000CC41C /* GCRepositoryListData.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF2634A2799133A000CC41C /* GCRepositoryListData.m */; };
@@ -561,6 +570,16 @@
 		2B389E4F27A3FBCE00A510FF /* GCSearchRepositoryResultData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GCSearchRepositoryResultData.m; sourceTree = "<group>"; };
 		2B66980227B10DF300BFF092 /* GCFilterView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GCFilterView.h; sourceTree = "<group>"; };
 		2B66980327B10DF300BFF092 /* GCFilterView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GCFilterView.m; sourceTree = "<group>"; };
+		2B7FD523281241A900ECA6A7 /* GCFollowerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GCFollowerViewController.h; sourceTree = "<group>"; };
+		2B7FD524281241A900ECA6A7 /* GCFollowerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GCFollowerViewController.m; sourceTree = "<group>"; };
+		2BA6FC6227FC5EF4008D38E9 /* GCUserViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GCUserViewController.h; sourceTree = "<group>"; };
+		2BA6FC6327FC5EF4008D38E9 /* GCUserViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GCUserViewController.m; sourceTree = "<group>"; };
+		2BA6FC6627FC6731008D38E9 /* GCUserListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GCUserListViewController.h; sourceTree = "<group>"; };
+		2BA6FC6727FC6731008D38E9 /* GCUserListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GCUserListViewController.m; sourceTree = "<group>"; };
+		2BA6FC6927FC6751008D38E9 /* GCUserListTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GCUserListTableViewCell.h; sourceTree = "<group>"; };
+		2BA6FC6A27FC6751008D38E9 /* GCUserListTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GCUserListTableViewCell.m; sourceTree = "<group>"; };
+		2BA6FC6E27FC6B0A008D38E9 /* GCUserModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GCUserModel.h; sourceTree = "<group>"; };
+		2BA6FC6F27FC6B0A008D38E9 /* GCUserModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GCUserModel.m; sourceTree = "<group>"; };
 		2BC6A43F278D6DEE002901D0 /* GithubClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GithubClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BC6A442278D6DEE002901D0 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		2BC6A443278D6DEE002901D0 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -588,6 +607,14 @@
 		2BC6A4D227915BD5002901D0 /* GCRepositoryListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GCRepositoryListViewController.h; sourceTree = "<group>"; };
 		2BC6A4D327915BD5002901D0 /* GCRepositoryListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GCRepositoryListViewController.m; sourceTree = "<group>"; };
 		2BD08A5327E5D1D100B0C5D1 /* GithubClient-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GithubClient-Bridging-Header.h"; sourceTree = "<group>"; };
+		2BD08A5727E9B9AF00B0C5D1 /* GCPersonalViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GCPersonalViewController.h; sourceTree = "<group>"; };
+		2BD08A5827E9B9AF00B0C5D1 /* GCPersonalViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GCPersonalViewController.m; sourceTree = "<group>"; };
+		2BD08A5D27E9C2DB00B0C5D1 /* GCPersonalTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GCPersonalTableViewCell.h; sourceTree = "<group>"; };
+		2BD08A5E27E9C2DB00B0C5D1 /* GCPersonalTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GCPersonalTableViewCell.m; sourceTree = "<group>"; };
+		2BD08A6427EAB0D300B0C5D1 /* UILabel+Font.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UILabel+Font.h"; sourceTree = "<group>"; };
+		2BD08A6527EAB0D300B0C5D1 /* UILabel+Font.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UILabel+Font.m"; sourceTree = "<group>"; };
+		2BD08A6D27F84DEE00B0C5D1 /* GCBlankViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GCBlankViewController.h; sourceTree = "<group>"; };
+		2BD08A6E27F84DEE00B0C5D1 /* GCBlankViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GCBlankViewController.m; sourceTree = "<group>"; };
 		2BF2633F279565B1000CC41C /* GCRepositoryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GCRepositoryViewController.h; sourceTree = "<group>"; };
 		2BF26340279565B1000CC41C /* GCRepositoryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GCRepositoryViewController.m; sourceTree = "<group>"; };
 		2BF263452796A1D4000CC41C /* GCTools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GCTools.h; sourceTree = "<group>"; };
@@ -1165,6 +1192,37 @@
 			path = GCFilterView;
 			sourceTree = "<group>";
 		};
+		2B7FD5222812417D00ECA6A7 /* GCFollowerViewController */ = {
+			isa = PBXGroup;
+			children = (
+				2B7FD523281241A900ECA6A7 /* GCFollowerViewController.h */,
+				2B7FD524281241A900ECA6A7 /* GCFollowerViewController.m */,
+			);
+			path = GCFollowerViewController;
+			sourceTree = "<group>";
+		};
+		2BA6FC6127FC5ED0008D38E9 /* GCUserView */ = {
+			isa = PBXGroup;
+			children = (
+				2BA6FC6227FC5EF4008D38E9 /* GCUserViewController.h */,
+				2BA6FC6327FC5EF4008D38E9 /* GCUserViewController.m */,
+				2BA6FC6E27FC6B0A008D38E9 /* GCUserModel.h */,
+				2BA6FC6F27FC6B0A008D38E9 /* GCUserModel.m */,
+			);
+			path = GCUserView;
+			sourceTree = "<group>";
+		};
+		2BA6FC6527FC671B008D38E9 /* GCUserListViewController */ = {
+			isa = PBXGroup;
+			children = (
+				2BA6FC6627FC6731008D38E9 /* GCUserListViewController.h */,
+				2BA6FC6727FC6731008D38E9 /* GCUserListViewController.m */,
+				2BA6FC6927FC6751008D38E9 /* GCUserListTableViewCell.h */,
+				2BA6FC6A27FC6751008D38E9 /* GCUserListTableViewCell.m */,
+			);
+			path = GCUserListViewController;
+			sourceTree = "<group>";
+		};
 		2BC6A436278D6DEE002901D0 = {
 			isa = PBXGroup;
 			children = (
@@ -1189,6 +1247,12 @@
 		2BC6A441278D6DEE002901D0 /* GIthubClient */ = {
 			isa = PBXGroup;
 			children = (
+				2B7FD5222812417D00ECA6A7 /* GCFollowerViewController */,
+				2BA6FC6527FC671B008D38E9 /* GCUserListViewController */,
+				2BA6FC6127FC5ED0008D38E9 /* GCUserView */,
+				2BD08A6C27F84DA500B0C5D1 /* GCBlankView */,
+				2BD08A6027EAB07500B0C5D1 /* UIKit+Categorys */,
+				2BD08A5627E9B94200B0C5D1 /* GCPersonal */,
 				2B66980127B10DD600BFF092 /* GCFilterView */,
 				2B389E3E27A3D15400A510FF /* GCSearchViewController */,
 				2B389A3527A27FAA00A510FF /* GCBlobView */,
@@ -1278,6 +1342,35 @@
 				2BC6A4CC279046D4002901D0 /* GCRepositoryTableViewCell.m */,
 			);
 			path = GCRepositoryListView;
+			sourceTree = "<group>";
+		};
+		2BD08A5627E9B94200B0C5D1 /* GCPersonal */ = {
+			isa = PBXGroup;
+			children = (
+				2BD08A5727E9B9AF00B0C5D1 /* GCPersonalViewController.h */,
+				2BD08A5827E9B9AF00B0C5D1 /* GCPersonalViewController.m */,
+				2BD08A5D27E9C2DB00B0C5D1 /* GCPersonalTableViewCell.h */,
+				2BD08A5E27E9C2DB00B0C5D1 /* GCPersonalTableViewCell.m */,
+			);
+			path = GCPersonal;
+			sourceTree = "<group>";
+		};
+		2BD08A6027EAB07500B0C5D1 /* UIKit+Categorys */ = {
+			isa = PBXGroup;
+			children = (
+				2BD08A6427EAB0D300B0C5D1 /* UILabel+Font.h */,
+				2BD08A6527EAB0D300B0C5D1 /* UILabel+Font.m */,
+			);
+			path = "UIKit+Categorys";
+			sourceTree = "<group>";
+		};
+		2BD08A6C27F84DA500B0C5D1 /* GCBlankView */ = {
+			isa = PBXGroup;
+			children = (
+				2BD08A6D27F84DEE00B0C5D1 /* GCBlankViewController.h */,
+				2BD08A6E27F84DEE00B0C5D1 /* GCBlankViewController.m */,
+			);
+			path = GCBlankView;
 			sourceTree = "<group>";
 		};
 		2BF2633E27956212000CC41C /* GCRepsitoryView */ = {
@@ -1373,7 +1466,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 2BC6A43A278D6DEE002901D0 /* Build configuration list for PBXProject "GithubClient" */;
+			buildConfigurationList = 2BC6A43A278D6DEE002901D0 /* Build configuration list for PBXProject "GIthubClient" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -1451,14 +1544,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				2BC6A44A278D6DEE002901D0 /* ViewController.m in Sources */,
+				2BA6FC6427FC5EF4008D38E9 /* GCUserViewController.m in Sources */,
+				2BD08A6F27F84DEE00B0C5D1 /* GCBlankViewController.m in Sources */,
+				2BD08A6627EAB0D300B0C5D1 /* UILabel+Font.m in Sources */,
 				2BF263522799897C000CC41C /* GCRepositoryData.m in Sources */,
+				2BA6FC7027FC6B0A008D38E9 /* GCUserModel.m in Sources */,
+				2BD08A5927E9B9AF00B0C5D1 /* GCPersonalViewController.m in Sources */,
 				2BC6A444278D6DEE002901D0 /* AppDelegate.m in Sources */,
 				2BC6A455278D6DF1002901D0 /* main.m in Sources */,
+				2BA6FC6827FC6731008D38E9 /* GCUserListViewController.m in Sources */,
+				2BD08A5F27E9C2DB00B0C5D1 /* GCPersonalTableViewCell.m in Sources */,
 				2B389E4D27A3FAFD00A510FF /* GCPermissions.m in Sources */,
 				2BF26355279A9401000CC41C /* GCActionBar.m in Sources */,
 				2B389A3327A27F6F00A510FF /* GCBlobViewController.m in Sources */,
 				2BC6A4D427915BD5002901D0 /* GCRepositoryListViewController.m in Sources */,
 				2BF26341279565B1000CC41C /* GCRepositoryViewController.m in Sources */,
+				2B7FD525281241A900ECA6A7 /* GCFollowerViewController.m in Sources */,
 				2BF2634B2799133A000CC41C /* GCRepositoryListData.m in Sources */,
 				2B389A2227A14DD700A510FF /* GCDropdownListItem.m in Sources */,
 				2BC6A49D278DA90B002901D0 /* GCWorkSpaceViewController.m in Sources */,
@@ -1468,6 +1569,7 @@
 				2B389E4A27A3FA9E00A510FF /* GCLicense.m in Sources */,
 				2B389A2627A1624200A510FF /* GCFolderViewController.m in Sources */,
 				2BC6A466278D8472002901D0 /* GCLoginViewController.m in Sources */,
+				2BA6FC6B27FC6751008D38E9 /* GCUserListTableViewCell.m in Sources */,
 				2B389A1F27A14C4D00A510FF /* GCDropdownListBar.m in Sources */,
 				2B66980427B10DF300BFF092 /* GCFilterView.m in Sources */,
 				2BC6A463278D82F9002901D0 /* GCGithubApi.m in Sources */,
@@ -1551,10 +1653,12 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/<relative";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "";
 				SDKROOT = iphoneos;
 				SYMROOT = "$(BUILT_PRODUCTS_DIR)";
 			};
@@ -1607,9 +1711,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/<relative";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = "";
 				SDKROOT = iphoneos;
 				SYMROOT = "$(BUILT_PRODUCTS_DIR)";
 				VALIDATE_PRODUCT = YES;
@@ -1622,6 +1728,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1660,6 +1767,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1694,7 +1802,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		2BC6A43A278D6DEE002901D0 /* Build configuration list for PBXProject "GithubClient" */ = {
+		2BC6A43A278D6DEE002901D0 /* Build configuration list for PBXProject "GIthubClient" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2BC6A456278D6DF1002901D0 /* Debug */,

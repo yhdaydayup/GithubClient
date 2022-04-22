@@ -26,6 +26,7 @@
 @property (strong, nonatomic) UIImageView *forkImageView;
 @property (strong, nonatomic) UIImageView *starImageView;
 @property BOOL isStar;
+@property BOOL isFork;
 @end
 
 @implementation GCRepositoryTableViewCell
@@ -53,6 +54,7 @@
         _forkImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"fork.png"]];
         _starImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"star.png"]];
         _isStar = NO;
+        _isFork = NO;
         
         self.backgroundColor = TabBarPage_Background_color;
         self.contentView.backgroundColor = [UIColor clearColor];
@@ -163,16 +165,39 @@
     UITapGestureRecognizer *tapStar = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(starAction)];
     [_starImageView addGestureRecognizer:tapStar];
     _starImageView.userInteractionEnabled = YES;
+    
+    UITapGestureRecognizer *tapFork = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(forkAction)];
+    [_forkImageView addGestureRecognizer:tapFork];
+    _forkImageView.userInteractionEnabled = YES;
     return;
 }
-- (void) starAction{
+- (void) forkAction {
+    __weak typeof(self) weakSelf = self;
+    self.forkImageView.userInteractionEnabled = NO;
+    if(!_isFork) {
+        [weakSelf.forkImageView setImage:[UIImage imageNamed:@"fork-fill.png"]];
+        weakSelf.forkCount.text = [[NSString alloc] initWithFormat:@"%d",[weakSelf.forkCount.text intValue] + 1];
+        [[GCGithubApi shareGCGithubApi] postWithUrl:getForkUrl(weakSelf.userNameLabel.text, weakSelf.repositoryNameLabel.text) WithAcceptType:JSonContent WithParams:[NSMutableDictionary new]
+            WithSuccessBlock:^(id response) {
+                weakSelf.isFork = YES;
+                weakSelf.forkImageView.userInteractionEnabled = YES;
+            } WithFailureBlock:^{
+                [weakSelf.forkImageView setImage:[UIImage imageNamed:@"fork.png"]];
+                weakSelf.forkCount.text = [[NSString alloc] initWithFormat:@"%d",[weakSelf.forkCount.text intValue] - 1];
+                weakSelf.forkImageView.userInteractionEnabled = YES;
+        }];
+    }
+    return;
+}
+
+- (void) starAction {
     __weak typeof(self) weakSelf = self;
     self.starImageView.userInteractionEnabled = NO;
-    if(!_isStar) {
+    if(!_isFork) {
         [weakSelf.starImageView setImage:[UIImage imageNamed:@"star-fill-yellow.png"]];
         weakSelf.starCount.text = [[NSString alloc] initWithFormat:@"%d",[weakSelf.starCount.text intValue] + 1];
         [[GCGithubApi shareGCGithubApi] putWithUrl:getStaredUrl(weakSelf.userNameLabel.text, weakSelf.repositoryNameLabel.text) WithSuccessBlock:^(id response){
-            weakSelf.isStar = YES;
+            weakSelf.isFork = YES;
             weakSelf.starImageView.userInteractionEnabled = YES;
         } WithFailureBlock:^{
             [weakSelf.starImageView setImage:[UIImage imageNamed:@"star.png"]];
@@ -184,7 +209,7 @@
         [weakSelf.starImageView setImage:[UIImage imageNamed:@"star.png"]];
         weakSelf.starCount.text = [[NSString alloc] initWithFormat:@"%d",[weakSelf.starCount.text intValue] - 1];
         [[GCGithubApi shareGCGithubApi] deleteWithUrl:getStaredUrl(weakSelf.userNameLabel.text, weakSelf.repositoryNameLabel.text) WithSuccessBlock:^(id response){
-            weakSelf.isStar = NO;
+            weakSelf.isFork = NO;
             weakSelf.starImageView.userInteractionEnabled = YES;
         } WithFailureBlock:^{
             [weakSelf.starImageView setImage:[UIImage imageNamed:@"star-fill-yellow.png"]];
@@ -194,7 +219,7 @@
     }
     return;
 }
-- (void) checkStared{
+- (void) checkStared {
     __weak typeof(self) weakSelf = self;
     [[GCGithubApi shareGCGithubApi] getWithUrl:getStaredUrl(weakSelf.userNameLabel.text ,weakSelf.repositoryNameLabel.text) WithAcceptType:JSonContent WithSuccessBlock:^(id response){
         [weakSelf.starImageView setImage:[UIImage imageNamed:@"star-fill-yellow.png"]];

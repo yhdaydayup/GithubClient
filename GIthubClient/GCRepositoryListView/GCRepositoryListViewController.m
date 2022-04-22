@@ -114,6 +114,7 @@
     if(type == Star) {
         [githubApi getWithUrl:getAuthenticatedUserInfo() WithAcceptType:JSonContent WithSuccessBlock:^(id userInfo) {
             NSString *userName = [userInfo objectForKey:@"login"];
+            weakSelf.model = [[GCSearchModel alloc] initWithUrl:getUserStarRepositoryUrl(userName) WithParams:[NSMutableDictionary new] WithHeaders:[NSMutableDictionary new]];
             [[GCGithubApi shareGCGithubApi] getWithUrl:getUserStarRepositoryUrl(userName) WithAcceptType:JSonContent WithSuccessBlock:^(id responseObject){
                 weakSelf.data = [GCRepositoryListDatum jsonsToModelsWithJsons:responseObject];
                 [weakSelf.loadingImageView setHidden:YES];
@@ -122,11 +123,13 @@
                 [weakSelf.tableView reloadData];
                 [weakSelf.view layoutIfNeeded];
                 weakSelf.topOffset = weakSelf.tableView.contentOffset.y;
+
             } WithFailureBlock:^{
             }];
         } WithFailureBlock:^{}];
     }
     else if(type == User) {
+        weakSelf.model = [[GCSearchModel alloc] initWithUrl:getAuthenticatedUserRepositoriesUrl() WithParams:[NSMutableDictionary new] WithHeaders:[NSMutableDictionary new]];
         [githubApi getWithUrl:getAuthenticatedUserRepositoriesUrl() WithAcceptType:JSonContent WithSuccessBlock:^(id responseObject){
             weakSelf.data = [GCRepositoryListDatum jsonsToModelsWithJsons:responseObject];
             [weakSelf.loadingImageView setHidden:YES];
@@ -168,7 +171,6 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     
     [self.view layoutIfNeeded];
 }

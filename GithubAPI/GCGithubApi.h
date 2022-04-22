@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "GCSearchModel.h"
+#import <AFNetworking/AFURLRequestSerialization.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -16,6 +17,8 @@ NSString *getAuthenticatedUserRepositoriesUrl(void);
 NSString *getRepositoryInformation(NSString *fullName);
 
 NSString *getStaredUrl(NSString *owner, NSString *repo);
+
+NSString *getForkUrl(NSString *owner, NSString *repo);
 
 NSString *getReadmeUrl(NSString *fullName);
 
@@ -36,11 +39,12 @@ typedef NS_ENUM(NSInteger, contentType) {
 typedef void (^successBlock)(id);
 typedef void(^failureBlock)(void);
 @interface GCGithubApi : NSObject
-- (BOOL) loginWithAccount:(NSString *)account WithSecret:(NSString *)secret;
-- (BOOL) isLogin;
+
+- (void) loginWithAccount:(NSString *)account WithSecret:(NSString *)secret WithSuccessBlock:(successBlock)successBlock WithFailuere:(failureBlock)failureBlock;
+
+- (void)loginWithAccessToken:(NSString *)accessToken WithSuccessBlock:(successBlock)successBlock WithFailureBlock:(failureBlock)failureBlock;
+
 + (instancetype) shareGCGithubApi;
-
-
 
 - (void)getWithUrl:(NSString*)url WithAcceptType:(contentType)type WithSuccessBlock:(successBlock)successBlock WithFailureBlock:(failureBlock)failureBlock;
 
@@ -52,6 +56,10 @@ typedef void(^failureBlock)(void);
 - (void)putWithUrl:(NSString*)url WithSuccessBlock:(successBlock)successBlock WithFailureBlock:(failureBlock)failureBlock;
     
 - (void)deleteWithUrl:(NSString*)url WithSuccessBlock:(successBlock)successBlock WithFailureBlock:(failureBlock)failureBlock;
+
+- (void)postWithUrl:(NSString*)url WithAcceptType:(contentType)type WithParams:(NSMutableDictionary*)params constructingBodyWithBlock:(void(^)(id<AFMultipartFormData>))constructBlock WithSuccessBlock:(successBlock)successBlock WithFailureBlock:(failureBlock)failureBlock;
+
+- (void)postWithUrl:(NSString*)url WithAcceptType:(contentType)type WithParams:(NSMutableDictionary*)params WithSuccessBlock:(successBlock)successBlock WithFailureBlock:(failureBlock)failureBlock;
 @end
 
 NS_ASSUME_NONNULL_END

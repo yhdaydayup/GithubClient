@@ -10,6 +10,7 @@
 #import "GCWorkSpaceTableViewCellModel.h"
 #import "GCWorkSpaceTableViewCell.h"
 #import "GCRepositoryListViewController.h"
+#import "GCBlankViewController.h"
 #import <Masonry/Masonry.h>
 #import "configure.h"
 
@@ -23,12 +24,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _data = [[NSMutableArray<GCWorkSpaceTableViewCellModel*> alloc] init];
-    [_data addObject:[[GCWorkSpaceTableViewCellModel alloc] initWithClassName:@"GCRepositoryListViewController" WithTitle:@"问题" WithImagePath:@"issue.png"]];
-    [_data addObject:[[GCWorkSpaceTableViewCellModel alloc] initWithClassName:@"GCRepositoryListViewController" WithTitle:@"合并请求" WithImagePath:@"request.png"]];
-    [_data addObject:[[GCWorkSpaceTableViewCellModel alloc] initWithClassName:@"GCRepositoryListViewController" WithTitle:@"组织" WithImagePath:@"organization.png"]];
+    [_data addObject:[[GCWorkSpaceTableViewCellModel alloc] initWithClassName:@"GCBlankViewController" WithTitle:@"问题" WithImagePath:@"issue.png"]];
+    [_data addObject:[[GCWorkSpaceTableViewCellModel alloc] initWithClassName:@"GCBlankViewController" WithTitle:@"合并请求" WithImagePath:@"request.png"]];
+    [_data addObject:[[GCWorkSpaceTableViewCellModel alloc] initWithClassName:@"GCBlankViewController" WithTitle:@"组织" WithImagePath:@"organization.png"]];
     [_data addObject:[[GCWorkSpaceTableViewCellModel alloc] initWithClassName:@"GCRepositoryListViewController" WithTitle:@"仓库" WithImagePath:@"repository.png"]];
     [_data addObject:[[GCWorkSpaceTableViewCellModel alloc] initWithClassName:@"GCRepositoryListViewController" WithTitle:@"标星" WithImagePath:@"star-fill.png"]];
-    [_data addObject:[[GCWorkSpaceTableViewCellModel alloc] initWithClassName:@"GCRepositoryListViewController" WithTitle:@"动态" WithImagePath:@"dynamic.png"]];
+    [_data addObject:[[GCWorkSpaceTableViewCellModel alloc] initWithClassName:@"GCBlankViewController" WithTitle:@"动态" WithImagePath:@"dynamic.png"]];
     
     _topView = [[UIView alloc] init];
     _topView.backgroundColor =TabBarPage_Element_Background_Color;

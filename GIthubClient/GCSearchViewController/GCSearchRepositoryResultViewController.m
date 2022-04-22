@@ -17,6 +17,7 @@
 #import "NSObject+GCDataModel.h"
 #import "GCRepositoryListViewController.h"
 #import "GCSearchModel.h"
+#import "GCUserListViewController.h"
 #import <ReactiveObjc.h>
 
 
@@ -29,6 +30,7 @@
 @property (nonatomic) SelectStatus selectStatus;
 @property (strong, nonatomic) GCFilterView *filterView;
 @property (strong, nonatomic) GCRepositoryListViewController *repositoriesVC;
+@property (strong, nonatomic) GCUserListViewController *usersVC;
 @property (strong, nonatomic) UIView *resultView;
 @property (strong, nonatomic) GCSearchModel* searchModel;
 @property (copy, nonatomic) NSString *searchText;
@@ -44,6 +46,7 @@
         _filterView = [[GCFilterView alloc] init];
         _resultView = [[UIView alloc] init];
         _repositoriesVC = [[GCRepositoryListViewController alloc] init];
+        _usersVC = [[GCUserListViewController alloc] init];
         
         _showRepositoryLabel.text = @"仓库";
         _showUserLabel.text = @"用户";
@@ -117,7 +120,17 @@
         make.top.mas_equalTo(_resultView.mas_top);
         make.bottom.mas_equalTo(_resultView.mas_bottom);
     }];
-    _repositoriesVC.nav = self.navigationController;
+    
+    _usersVC.nav = self.navigationController;
+    [_resultView addSubview:_usersVC.view];
+    [_usersVC.view mas_makeConstraints:^(MASConstraintMaker *make){
+        make.left.mas_equalTo(_resultView.mas_left);
+        make.right.mas_equalTo(_resultView.mas_right);
+        make.top.mas_equalTo(_resultView.mas_top);
+        make.bottom.mas_equalTo(_resultView.mas_bottom);
+    }];
+    _usersVC.nav = self.navigationController;
+
     
     [self addEvents];
     
@@ -142,6 +155,14 @@
     
     _selectStatus = ShowRepository;
 }
+- (void)tapCompleteBtn {
+    if(_selectStatus == ShowRepository) {
+        [self showRepositorySelected];
+    }
+    else if(_selectStatus == ShowUser) {
+        [self showUserSelected];
+    }
+}
 
 - (void) showRepositorySelected {
     _selectStatus = ShowRepository;
@@ -154,6 +175,7 @@
     _selectStatus = ShowUser;
     [self revertStyle];
     _showUserLabel.textColor = search_result_filterLabel_selected_textColor;
+    [self searchForUser];
 }
 
 - (void) revertStyle{
@@ -175,20 +197,45 @@
 - (void)searchForRepository{
 //    q=tetris+language:assembly&sort=stars&order=desc
     NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
-    [params setObject:_searchText forKey:@"q"];
+    NSString *order = _filterView.orderRule ? @"desc" : @"asc";
+    NSString *query = [[NSString alloc] initWithFormat:@"%@+language:%@", _searchText, _filterView.language];
+    [params setObject:query forKey:@"q"];
+    [params setObject:order forKey:@"order"];
+    [params setObject:_filterView.sortBy forKey:@"sort"];
     [params setObject:@"100" forKey:@"per_page"];
-    [params setObject:_filterView.orderRule ? @"desc" : @"asc" forKey:@"order"];
 
     NSMutableDictionary *headers = [[NSMutableDictionary alloc] init];
-    [headers setObject:_filterView.language forKey:@"language"];
-    [headers setObject:_filterView.sortBy forKey:@"sort"];
+//    [headers setObject:_filterView.language forKey:@"language"];
+//    [headers setObject:_filterView.sortBy forKey:@"sort"];
     _searchModel.params = params;
     _searchModel.headers = headers;
     _searchModel.url = @"https://api.github.com/search/repositories";
     [_repositoriesVC setModel:_searchModel];
     _repositoriesVC.view.hidden = NO;
+    _usersVC.view.hidden = YES;
     _filterView.hidden = YES;
 }
+- (void)searchForUser{
+//    q=tetris+language:assembly&sort=stars&order=desc
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+    NSString *order = _filterView.orderRule ? @"desc" : @"asc";
+    NSString *query = [[NSString alloc] initWithFormat:@"q=%@+language:%@+order:%@+sort:%@", _searchText, _filterView.language, order, _filterView.sortBy];
+    [params setObject:@"100" forKey:@"per_page"];
+
+    NSMutableDictionary *headers = [[NSMutableDictionary alloc] init];
+//    [headers setObject:_filterView.language forKey:@"language"];
+//    [headers setObject:_filterView.sortBy forKey:@"sort"];
+    [headers setObject:query forKey:@"q"];
+    
+    _searchModel.params = params;
+    _searchModel.headers = headers;
+    _searchModel.url = @"https://api.github.com/search/users";
+    [_usersVC setModel:_searchModel];
+    _usersVC.view.hidden = NO;
+    _repositoriesVC.view.hidden = YES;
+    _filterView.hidden = YES;
+}
+
 
 /*
 #pragma mark - Navigation

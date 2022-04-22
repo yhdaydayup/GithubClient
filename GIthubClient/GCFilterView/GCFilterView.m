@@ -47,7 +47,7 @@
         _languagePickView.dataSource = self;
         
         _languages = @[@"any", @"C++", @"Java", @"Objective-c"];
-        _sortWays =  @[@"BestMatch", @"Stars", @"Forks", @"RecentlyUpdated"];
+        _sortWays =  @[@"best match", @"stars", @"forks", @"updated"];
 
         self.backgroundColor = [UIColor blackColor] ;
         self.userInteractionEnabled = YES;
@@ -73,7 +73,7 @@
         }];
 
         UILabel *sortText = [[UILabel alloc] init];
-        sortText.text = @"排序";
+        sortText.text = @"语言";
         [_contentView addSubview:sortText];
         [sortText mas_makeConstraints:^(MASConstraintMaker *make){
             make.left.mas_equalTo(_contentView.mas_left).offset(5);
@@ -94,7 +94,7 @@
         }];
 
         UILabel *languageText = [[UILabel alloc] init];
-        languageText.text = @"语言";
+        languageText.text = @"排序";
         [_contentView addSubview:languageText];
         [languageText mas_makeConstraints:^(MASConstraintMaker *make){
             make.left.mas_equalTo(_contentView.mas_left).offset(5);
@@ -104,8 +104,8 @@
         }];
 
         [self addSubview:_sortLabel];
-        _sortLabel.text = @"BestMatch";
-        self.sortBy = @"BestMatch";
+        _sortLabel.text = @"best match";
+        self.sortBy = @"best match";
         _sortLabel.textAlignment = NSTextAlignmentCenter;
         [_contentView addSubview:_sortLabel];
         [_sortLabel mas_makeConstraints:^(MASConstraintMaker *make){

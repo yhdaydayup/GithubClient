@@ -398,20 +398,13 @@ NSMutableDictionary *markDownStyle(void)
         NSString *readmeText = [responseObj valueForKey:@"content"];
         NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:readmeText options:NSDataBase64DecodingIgnoreUnknownCharacters];
         NSString *decodeText = [[NSString alloc] initWithData:decodedData encoding:NSUTF8StringEncoding];
-        NSLog(@"%@", decodeText);
-        
-        //CocoaMarkDown
-        //        CMDocument *docutment = [[CMDocument alloc] initWithData:decodedData options:CMDocumentOptionsSmart];
-        //        CMTextAttributes *attribute = [[CMTextAttributes alloc] init];
-        //        CMAttributedStringRenderer *render = [[CMAttributedStringRenderer alloc] initWithDocument:docutment attributes:attribute];
-        //        [render registerHTMLElementTransformer:[[CMHTMLStrikethroughTransformer alloc] init]];
-        //        [render registerHTMLElementTransformer:[[CMHTMLSuperscriptTransformer alloc] init]];
-        //        weakSelf.readmeView.attributedText = render.render;
-        
-        //
-        
+//        NSLog(@"%@", decodeText);
+//        BPParser *parser = [[BPParser alloc] init];
+//        BPDocument *document = [parser parse:decodeText];
+//        BPAttributedStringConverter *converter = [[BPAttributedStringConverter alloc] init];
+//        weakSelf.readmeView.attributedText = [convert convertDocument:document];
+//        weakSelf.readmeView.text = decodeText;
         NSMutableAttributedString* attr_out = markdown_to_attr_string(decodeText,0,markDownStyle());
-        
         weakSelf.readmeView.attributedText = attr_out;
     } WithFailureBlock:^{
         weakSelf.readmeView.text = @"can not get readme";

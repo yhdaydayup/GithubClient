@@ -8,6 +8,8 @@
 #import "AppDelegate.h"
 #import "GCTabBarController.h"
 #import "GCLoginViewController.h"
+#import <Masonry/Masonry.h>
+#import "GCGithubApi.h"
 @interface AppDelegate ()
 
 @end
@@ -34,14 +36,6 @@
     GCLoginViewController *loginPageVC = [[GCLoginViewController alloc] init];
     [nvc pushViewController:loginPageVC animated:YES];
     
-//    if([[GCGithubApi shareGCGithubApi] isLogin])
-//    {
-//    }
-//    else
-//    {
-//        GCLoginViewController *loginPageVC = [[GCLoginViewController alloc] init];
-//        [nvc pushViewController:loginPageVC animated:YES];
-//    }
     
     return YES;
 }
